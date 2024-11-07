@@ -16,7 +16,7 @@ class AddColumnOthersToUsers extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('post_code')->after('password');
             $table->string('address')->after('post_code');
-            $table->string('building')->after('address')->nullable();
+            $table->string('building')->after('address');
         });
     }
 
