@@ -4,54 +4,58 @@
 <link rel="stylesheet" href="{{ asset('css/index.css')}}">
 @endsection
 
-@section('content')
-<div class="register-form">
-    <h2 class="register-form__heading content__heading">会員登録</h2>
-    <div class="register-form__inner">
-        <form class="register-form__form" action="/register" method="post">
+@section('link')
+    <div class = "header-container">
+        <form class = "search-form" action = "/search" method = "GET">
         @csrf
-        <div class="register-form__group">
-            <label class="register-form__label" for="name">お名前</label>
-            <input class="register-form__input" type="text" name="name">
-            <p class="register-form__error-message">
-            @error('name')
-            {{ $message }}
-            @enderror
-            </p>
-        </div>
-        <div class="register-form__group">
-            <label class="register-form__label" for="email">メールアドレス</label>
-            <input class="register-form__input" type="mail" name="email">
-            <p class="register-form__error-message">
-            @error('email')
-            {{ $message }}
-            @enderror
-            </p>
-        </div>
-        <div class="register-form__group">
-            <label class="register-form__label" for="password">パスワード</label>
-            <input class="register-form__input" type="password" name="password">
-            <p class="register-form__error-message">
-            @error('password')
-            {{ $message }}
-            @enderror
-            </p>
-        </div>
-        <div class="register-form__group">
-            <label class="register-form__label" for="password">確認用パスワード</label>
-            <input class="register-form__input" type="password" name="password_confirmation">
-            <p class="register-form__error-message">
-            @error('password_confirmation')
-            {{ $message }}
-            @enderror
-            </p>
-        </div>
-        <button class="register-form__btn btn" type="submit">登録する</button>
+            <div class ="search-form__item">
+                <input class ="search-form__item-input" type = "text" name = "keyword"  placeholder="なにをお探しですか？" value="{{request('keyword')}}">
+            </div>
         </form>
-
-        <div class = "login__link">
-            <a class = "login__button-submit" href="/login">ログインはこちら</a>
-        </div>
+        <nav class="header-nav">
+            <form action="/logout" method="post">
+            @csrf
+                <input class="header__link" type="submit" value="ログアウト">
+            </form>
+            <a class="header__link" href="/mypage">マイページ</a>
+            <a class= "sell-button" href="/sell">出品</a>
+        </nav>
     </div>
+@endsection
+
+@section('content')
+    <div class="tab-menu">
+        <a href="/" class="tab tab__recommended {{ request()->tab == 'mylist' ? '' : 'active' }}">おすすめ</a>
+        <a href="/?tab=mylist" class="tab tab__mylist {{ request()->tab == 'mylist' ? 'active' : '' }}">マイリスト</a>
+    </div>
+
+    <div class="tab-menu__inner">
+    @if ($tab === 'mylist')
+        @foreach ($items as $item)
+            <div class="item-content">
+                <div class="item-img">
+                    @if ($item->image_path)
+                    <a href="/item/{{ $item->id }}">
+                        <img src="{{ $item->image_path }}" alt="商品画像">
+                    </a>
+                    @endif
+                </div>
+                <div class="item-name">{{ $item->name }}</div>
+            </div>
+        @endforeach
+    @else
+        @foreach ($items as $item)
+            <div class="item-content">
+                <div class="item-img">
+                    @if ($item->image_path)
+                    <a href="/item/{{ $item->id }}">
+                        <img src="{{ $item->image_path }}" alt="商品画像">
+                    </a>
+                    @endif
+                </div>
+                <div class="item-name">{{ $item->name }}</div>
+            </div>
+        @endforeach
+    @endif
 </div>
-@endsection('content')
+@endsection

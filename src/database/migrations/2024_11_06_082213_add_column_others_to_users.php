@@ -14,9 +14,11 @@ class AddColumnOthersToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('post_code')->after('password');
-            $table->string('address')->after('post_code');
-            $table->string('building')->after('address');
+            $table->string('post_code')->after('password')->nullable();
+            $table->string('address')->after('post_code')->nullable();
+            $table->string('building')->after('address')->nullable();
+            $table->string('image_path')->after('building')->nullable();
+            $table->boolean('first_login')->default(true)->after('image_path');
         });
     }
 
@@ -28,9 +30,11 @@ class AddColumnOthersToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('post_code')->after('password');
-            $table->string('address')->after('post_code');
-            $table->string('building')->after('address');
+            $table->string('post_code')->after('password')->nullable(false);
+            $table->string('address')->after('post_code')->nullable(false);
+            $table->string('building')->after('address')->nullable(false);
+            $table->string('image_path')->after('building')->nullable(false);
+            $table->boolean('first_login')->default(true)->after('image_path');
         });
     }
 }

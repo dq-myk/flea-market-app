@@ -5,6 +5,10 @@ use Laravel\Fortify\Features;
 
 return [
 
+    'redirects' => [
+        'register' => '/login', // ここでログインページを指定
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Fortify Guard

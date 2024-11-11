@@ -33,20 +33,8 @@ class LoginRequest extends FormRequest
     {
         return [
             'email.required' => 'メールアドレスを入力してください',
-            'email.email' => '',
             'password.required' => 'パスワードを入力してください',
-            'password.min' => '',
         ];
     }
 
-    // バリデーションに失敗した場合にカスタムメッセージを表示
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            if ($validator->fails()) {
-                // メールアドレスまたはパスワード誤っている場合に、特定のメッセージを表示
-                $validator->errors()->add('login_error', 'ログイン情報が登録されていません。');
-            }
-        });
-    }
 }

@@ -55,4 +55,17 @@ class Item extends Model
     {
         return $this->belongsTo(Condition::class);
     }
+
+        public function scopeKeywordSearch($query, $keyword)
+    {
+        if (!empty($keyword)) {
+            $query->where(function ($subQuery) use ($keyword) {
+                $subQuery->where('name', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return $query;
+    }
+
 }
+

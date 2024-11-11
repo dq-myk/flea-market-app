@@ -1,47 +1,106 @@
-.register-form__inner {
-    display: flex;
-    justify-content: center;
-    margin-top: 48px;
+a {
+    text-decoration: none;
 }
 
-.register-form__form {
-    padding: 64px 96px;
-    width: 40vw;
-    border: 1px solid #C5B9B0;
-    border-radius: 8px;
-    background-color: #FDFEFE;
-}
-
-@media screen and (max-width: 1200px) {
-    .register-form__form {
-        width: 60vw;
-    }
-}
-
-.register-form__group {
-    margin-bottom: 32px;
-}
-
-.register-form__label {
-    display: block;
-    margin-bottom: 8px;
-}
-
-.register-form__input {
-    display: block;
-    padding: 8px 12px;
+.header-container {
     width: 100%;
-    height: 48px;
-    border: none;
-    background-color: #F4F4F4;
-    color: #BEB1A6;
-    font-family: serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
-.register-form__error-message {
-    color: #FF9494;
+.search-form__item {
+    flex-grow: 1;
+    max-width: 600px;
 }
 
-.register-form__btn {
-    margin: 60px auto 0;
+.search-form__item-input {
+    width: 100%;
+    padding: 8px 80px 8px 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.header__link {
+    color: #fff;
+}
+
+.sell-button {
+    padding: 8px 20px;
+    color: #000;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.tab-menu {
+    border-bottom: 1px solid #000;
+}
+
+.tab-menu__inner {
+    margin: 32px auto 0;
+    width: 84%;
+}
+
+.tab {
+    margin-left: 150px;
+    color: #000;
+}
+
+.tab.active {
+    color: red;
+}
+
+.tab-menu__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(25% - 20px);
+    box-sizing: border-box;
+}
+
+.item-img img {
+    width: 60%;
+    height: auto;
+    object-fit: cover;
+}
+
+.item-name {
+    font-size: 2.5rem;
+    text-align: left;
+    /* 左揃えにする */
+    align-self: flex-start;
+    /* 商品名を画像の左端に合わせる */
+}
+
+@media screen and (max-width: 850px) {
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 10px;
+    }
+
+    .header-nav {
+        justify-content: center;
+        flex-wrap: wrap;
+
+        gap: 10px;
+    }
+
+
+
 }
