@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
-    // ログインフォームを表示する
-    public function create()
-    {
-        return view('auth.login');  // ログインフォームのビューを返す
-    }
-
     public function store(LoginRequest $request)
     {
         // 認証の失敗時に特定のエラーメッセージを追加
@@ -24,13 +18,19 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        // プロフィールが未完成の場合は、profile_editにリダイレクト
-        if (session('profile_incomplete')) {
-            session()->forget('profile_incomplete');
-            return redirect()->route('profile.edit');
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        // 初回ログインの場合プロフィール編集画面へ
+        if ($user->first_login) {
+            // 初回ログイン後、first_loginをfalseに更新
+            $user->update(['first_login' => false]);
+
+            return redirect('/mypage/profile');
         }
 
-        // ログイン成功後のリダイレクト
-        return redirect()->intended('/');
+        // 通常のリダイレクト先
+        return redirect()->intended('index');
     }
 }

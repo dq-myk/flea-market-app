@@ -33,22 +33,25 @@
                 <div class="profile-img__inner">
                     <!-- 既存の画像があれば表示 -->
                     <div class="profile-img">
-                        @if ($user->image_path)
-                        <img  class = "profile-img__item" src="{{ $user->image_path }}" alt="プロフィール画像">
+                        @if ($user->image_path && file_exists(public_path($user->image_path)))
+                            <img class="profile-img__item" src="{{ asset($user->image_path) }}" alt="プロフィール画像">
+                        @else
+                            <!-- 画像がない場合は画像枠のみ表示 -->
+                            <div class="profile-img__item profile-img__item--no-image"></div>
                         @endif
-                        <p class="profile__edit__error-message">
-                        @error('profile_image')
-                        {{ $message }}
-                        @enderror
-                        </p>
                     </div>
 
                     <!-- 画像選択ボタン -->
                     <div class="profile-img__select">
-                        <input class="profile-img__btn" type="file" name="profile_image" accept="image/*" value = "画像を選択する">
+                        <input class="profile-img__btn" type="file" name="profile_image" accept="image/*" id="imgInput">
+                        <label for="imgInput" class="profile-img__btn-label">画像を選択する</label>
                     </div>
                 </div>
-
+                <p class="profile_image__error-message">
+                    @error('profile_image')
+                    {{ $message }}
+                    @enderror
+                </p>
             </div>
 
             <div class="profile__edit__group">

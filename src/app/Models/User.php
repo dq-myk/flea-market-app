@@ -24,6 +24,8 @@ class User extends Authenticatable
         'post_code',
         'address',
         'building',
+        'image_path',
+        'first_login',
     ];
 
     /**

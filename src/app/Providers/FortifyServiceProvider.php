@@ -42,9 +42,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
-        // 登録後に login ページにリダイレクト
-        Fortify::redirects('register', 'login');
-
         //カスタムリクエストの使用
         $this->app->bind(FortifyRegisterRequest::class, RegisterRequest::class);
 

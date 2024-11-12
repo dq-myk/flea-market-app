@@ -3,18 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Requests\RegisterRequest;  // RegisterRequest をインポート
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    // 登録フォームの表示
-    public function show()
-    {
-        return view('auth.register');  // 'register.blade.php' ビューを表示
-    }
-
-    // ユーザー登録処理
+        // ユーザー登録処理
     public function register(RegisterRequest $request)
     {
         // バリデーション後のデータを取得
@@ -29,5 +25,32 @@ class UserController extends Controller
 
         // 登録後にログインページへリダイレクト
         return redirect('/login');
+    }
+
+    public function show()
+    {
+        $user = Auth::user();
+        return view('profile_edit', compact('user'));
+    }
+
+    //プロフィール内容をデータベースに保存)
+    public function profile(ProfileRequest $request)
+    {
+        $user = auth()->user();
+        $user->name = $request->name;
+        $user->post_code = $request->post_code;
+        $user->address = $request->address;
+        $user->building = $request->building;
+
+        // 画像の処理
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imagePath = $image->store('public/images');
+            $user->image_path = str_replace('public/', 'storage/', $imagePath);
+        }
+
+        $user->save();
+
+        return redirect('/');
     }
 }

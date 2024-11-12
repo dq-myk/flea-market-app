@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Comment;
 
 class ItemController extends Controller
 {
@@ -41,16 +42,14 @@ class ItemController extends Controller
         return view('item_detail', compact('item'));
     }
 
-    /*public function detail(CommentRequest $request, $item_id)
+    public function detail(CommentRequest $request, $item_id)
     {
-        $item = Item::findOrFail($item_id); // 対象商品の取得
-
-        // コメントを保存
-        $item->comments()->create([
-            'content' => $request->comment,
-            'user_id' => auth()->id(), // ログインユーザーIDを取得
+        Comment::create([
+            'item_id' => $item_id,
+            'user_id' => auth()->id(),
+            'content' => $request->content,
         ]);
 
-        return redirect()->route('item.detail', $item_id);
-    }*/
+        return redirect('/item/{item_id}');
+    }
 }

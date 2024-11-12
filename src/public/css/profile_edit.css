@@ -40,6 +40,7 @@ a {
     border-radius: 4px;
 }
 
+/*プロフィール設定*/
 .profile__edit__inner {
     display: flex;
     justify-content: center;
@@ -47,7 +48,14 @@ a {
 }
 
 .profile__edit__form {
-    width: 45vwpx;
+    width: 45vw;
+}
+
+/* 画像表示枠を丸型にし、画像が設定されていない場合はグレー色に */
+.profile-img__inner {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .profile-img__item {
@@ -57,11 +65,35 @@ a {
     object-fit: cover;
 }
 
+.profile-img__item--no-image {
+    background-color: #D9D9D9;
+    width: 150px;
+    height: 150px;
+}
+
+.profile_image__error-message {
+    margin-bottom: 30px;
+    color: #FF9494;
+    font-size: 2.0rem;
+}
+
+.profile-img__select {
+    margin-left: 30px;
+}
+
 .profile-img__btn {
-    padding: 8px 20px;
+    display: none;
+}
+
+.profile-img__btn-label {
+    display: inline-block;
     color: #FF5555;
+    padding: 8px 16px;
+    border: 2px solid #FF5555;
+    border-radius: 4px;
+    cursor: pointer;
     font-size: 2rem;
-    border: 2px solid #FF5555
+    text-align: center;
 }
 
 @media screen and (max-width: 850px) {

@@ -27,4 +27,11 @@ class ProfileRequest extends FormRequest
             'profile_image' => 'mimes:jpeg,png',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'profile_image.mimes' => '画像はjpegまたはpng形式を選択してください',
+        ];
+    }
 }

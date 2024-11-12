@@ -40,10 +40,10 @@
         </div>
 
         <div class = "register-form__group">
-            <label class = "register-form__label" for = "password_confirmation">確認用パスワード</label>
+            <label class = "register-form__label" for = "password">確認用パスワード</label>
             <input class = "register-form__input" type = "password" name = "password_confirmation">
             <p class = "register-form__error-message">
-            @error('password_confirmation')
+            @error('password')
             {{ $message }}
             @enderror
             </p>
