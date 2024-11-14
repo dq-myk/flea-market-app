@@ -13,13 +13,13 @@ class My_list extends Model
         'id',
     ];
 
-    // Userリレーション（多対多の中間テーブルとして）
+    // ユーザーとのリレーション (多対1)
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Itemリレーション（多対多の中間テーブルとして）
+    // 商品とのリレーション (多対1)
     public function item()
     {
         return $this->belongsTo(Item::class);

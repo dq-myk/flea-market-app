@@ -13,9 +13,9 @@ class Category extends Model
         'id',
     ];
 
-    // Itemリレーション（1対多）
+    // 商品とのリレーション (多対多)
     public function items()
     {
-        return $this->hasMany(Item::class);
+        return $this->belongsToMany(Item::class, 'item_category');
     }
 }

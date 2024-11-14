@@ -13,13 +13,13 @@ class Comment extends Model
         'id',
     ];
 
-    // Userリレーション（多対1）
+    // ユーザーとのリレーション (多対1)
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Itemリレーション（多対1）
+    // 商品とのリレーション (多対1)
     public function item()
     {
         return $this->belongsTo(Item::class);

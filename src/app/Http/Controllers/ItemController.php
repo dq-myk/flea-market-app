@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Comment;
+use App\Models\Like;
+use App\Http\Requests\CommentRequest;
 
 class ItemController extends Controller
 {
@@ -34,12 +36,47 @@ class ItemController extends Controller
         return view('index', compact('items'));
     }
 
-    //商品詳細ページを表示
-    public function show($item_id)
+    public function show($id)
     {
-        $item = Item::findOrFail($item_id); // IDで商品を取得（存在しない場合は404エラー）
+        // 商品情報を取得し、コメント数といいね数も含める
+        $item = Item::withCount(['comments', 'likes'])->findOrFail($id);
 
-        return view('item_detail', compact('item'));
+        // ログインユーザーがその商品をいいねしているかを判定
+        $user = auth()->user();
+        $isLiked = $user && $item->likes()->where('user_id', $user->id)->exists();
+
+        // 必要なデータをビューに渡す
+        return view('item_detail', [
+            'item' => $item,
+            'commentsCount' => $item->comments_count, // コメント数
+            'likesCount' => $item->likes_count, // いいね数
+            'isLiked' => $isLiked // ユーザーがいいねしているかどうか
+        ]);
+    }
+
+        public function like(Item $item)
+    {
+        $user = auth()->user();
+
+        // すでにこの商品をいいねしているかチェック
+        $existingLike = Like::where('user_id', $user->id)->where('item_id', $item->id)->first();
+
+        if ($existingLike) {
+            // すでにいいねしている場合は、いいねを解除する
+            $existingLike->delete();
+        } else {
+            // まだいいねしていない場合は、新たに登録
+            Like::create([
+                'user_id' => $user->id,
+                'item_id' => $item->id,
+            ]);
+        }
+
+        // 商品のいいね数を更新
+        $item->update(['likes_count' => $item->likes()->count()]);
+
+        // 正しいURLにリダイレクト
+        return redirect("/item/{$item->id}");
     }
 
     public function detail(CommentRequest $request, $item_id)

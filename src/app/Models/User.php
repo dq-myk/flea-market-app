@@ -47,35 +47,34 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // My_Listリレーション（中間テーブル経由でのItemとの多対多）
+    // マイリストとのリレーション (1対多)
     public function myLists()
     {
-        return $this->belongsToMany(Item::class, 'my_lists', 'user_id', 'item_id')
-                    ->withTimestamps();
+        return $this->hasMany(MyList::class);
     }
 
-    // Commentリレーション（1対多）
+    // コメントとのリレーション (1対多)
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
-    // Likeリレーション（1対多）
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
-    }
-
-    // Purchaseリレーション（1対多）
+    // 購入履歴とのリレーション (1対多)
     public function purchases()
     {
         return $this->hasMany(Purchase::class);
     }
 
-    // Sellリレーション（1対多）
+    // 出品情報とのリレーション (1対多)
     public function sells()
     {
         return $this->hasMany(Sell::class);
+    }
+
+    // いいね情報とのリレーション (1対多)
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 
 
