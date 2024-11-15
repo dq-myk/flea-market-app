@@ -27,5 +27,6 @@ class PurchaseRequest extends FormRequest
             'payment_method' => 'required',
             'shipping_address' => 'required',
         ];
+
     }
 }

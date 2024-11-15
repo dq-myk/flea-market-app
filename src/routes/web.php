@@ -20,8 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [ItemController::class, 'index']);
     Route::get('/search', [ItemController::class, 'search']);
     Route::get('/item/{item_id}', [ItemController::class, 'show']);
-    Route::post('/item/{item_id}', [ItemController::class, 'detail']);
     Route::post('/item/{item}/like', [ItemController::class, 'like']);
+    Route::post('/item/{item_id}/comment', [ItemController::class, 'comment']);
+
+    Route::get('/purchase', [PurchaseController::class, 'purchase']);
 });
 
 

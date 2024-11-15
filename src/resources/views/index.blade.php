@@ -25,8 +25,8 @@
 
 @section('content')
     <div class="tab-menu">
-        <a href="/" class="tab tab__recommended {{ request()->tab == 'mylist' ? '' : 'active' }}">おすすめ</a>
-        <a href="/?tab=mylist" class="tab tab__mylist {{ request()->tab == 'mylist' ? 'active' : '' }}">マイリスト</a>
+        <a href="/" class="tab tab__home {{ $tab == 'home' ? 'active' : '' }}">おすすめ</a>
+        <a href="/?tab=mylist" class="tab tab__mylist {{ $tab == 'mylist' ? 'active' : '' }}">マイリスト</a>
     </div>
 
     <div class="tab-menu__inner">

@@ -31,6 +31,6 @@ class AuthenticatedSessionController extends Controller
         }
 
         // 通常のリダイレクト先
-        return redirect()->intended('index');
+        return redirect()->intended('/');
     }
 }

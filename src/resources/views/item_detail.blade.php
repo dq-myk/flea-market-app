@@ -50,8 +50,11 @@
                     {{ $item->comments_count }}
                 </span>
             </div>
-            <button class="purchase-button btn">購入手続きへ</button>
         </div>
+            <form action="/purchase" method="get">
+            @csrf
+            <button type="submit" class="purchase-button btn">購入手続きへ</button>
+            </form>
         <div class="item__description">
             <h3>商品説明</h3>
             <p>カラー：{{ $item->color }}</p>
@@ -61,7 +64,7 @@
             </div>
             <p>購入後、即発送いたします。</p>
         </div>
-        <div class="item__additional-info">
+        <div class="item-info">
             <h3>商品の情報</h3>
             <div class = "category__group">
                 <p>カテゴリー&ensp;&ensp;
@@ -91,12 +94,12 @@
                             <!-- 画像がない場合は画像枠のみ表示 -->
                             <div class="profile-img__item profile-img__item--no-image"></div>
                         @endif
-                    </div>
                     <strong>{{ $comment->user->name }}</strong>
+                    </div>
                     <p>{{ $comment->content }}</p>
                 </div>
             @endforeach
-            <form action="/item/{item_id}" method="POST">
+            <form action="/item/{{ $item_id }}/comment" method="POST">
                 @csrf
                 <h3>商品へのコメント</h3>
                 <textarea name="content"></textarea>

@@ -2,6 +2,10 @@ a {
     text-decoration: none;
 }
 
+textarea {
+    font-size: 2rem;
+}
+
 .header-container {
     width: 100%;
     display: flex;
@@ -139,7 +143,7 @@ a {
 }
 
 .item__description,
-.item__additional-info,
+.item-info,
 .comments-section {
     margin-top: 20px;
     line-height: 50px;
@@ -149,7 +153,12 @@ a {
     margin-bottom: 20px;
 }
 
-/* 画像表示枠を丸型にし、画像が設定されていない場合はグレー色に */
+.profile-img {
+    display: flex;
+    align-items: center;
+    gap: 30px
+}
+
 .profile-img__inner {
     display: flex;
     align-items: center;
