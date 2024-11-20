@@ -11,7 +11,6 @@ a {
 
 .search-form__item {
     flex-grow: 1;
-    max-width: 600px;
 }
 
 .search-form__item-input {
@@ -55,7 +54,7 @@ a {
 }
 
 .tab.active {
-    color: red;
+    color: #FF0000;
 }
 
 .tab-menu__inner {
@@ -78,10 +77,15 @@ a {
     object-fit: cover;
 }
 
-.item-name {
+.item-name,
+.item-status {
     font-size: 2.5rem;
     text-align: left;
     align-self: flex-start;
+}
+
+.item-status {
+    color: #FF0000;
 }
 
 @media screen and (max-width: 850px) {

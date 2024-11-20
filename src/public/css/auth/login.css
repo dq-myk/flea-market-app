@@ -5,7 +5,7 @@
 }
 
 .login-form__form {
-    width: 45vwpx;
+    width: 45vw;
 }
 
 @media screen and (max-width: 850px) {

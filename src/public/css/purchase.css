@@ -1,3 +1,30 @@
+select {
+    width: 250px;
+    margin: 20px 80px;
+    padding: 5px 30px;
+    appearance: none;
+    background-color: #fff;
+    font-size: 16px;
+    color: #000;
+    border: 1.5px solid #B1B1B1;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 開いたときのオプションリストのスタイル */
+select option {
+    position: relative;
+    padding-left: 50px;
+    background-color: #636769;
+    color: #fff;
+}
+
+/* 選択中のオプションのスタイル */
+select option:checked {
+    background-color: #5599EB;
+    color: white;
+}
+
 .header-container {
     width: 100%;
     display: flex;
@@ -7,11 +34,9 @@
 
 .search-form__item {
     flex-grow: 1;
-    max-width: 600px;
 }
 
 .search-form__item-input {
-    width: 100%;
     padding: 8px 80px 8px 20px;
     border: 1px solid #000;
     border-radius: 5px;
@@ -36,19 +61,96 @@
     border-radius: 4px;
 }
 
-.item-info {
+.purchase-container {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.item-info__group {
+    min-width: 600px;
+    width: 50%;
+}
+
+.info__group {
     display: flex;
     align-items: center;
     gap: 30px;
 }
 
-.item-image img {
+.item-image {
     width: 170px;
     height: 170px;
     object-fit: cover;
 }
 
+.item-status {
+    color: #FF0000;
+}
 
+.delivery-info p {
+    margin: 20px 80px;
+}
+
+.delivery {
+    display: flex;
+    justify-content: space-between;
+}
+
+.address-change {
+    text-decoration: none;
+    color: #0073CC;
+}
+
+.info__group,
+.payment-info,
+.delivery-info {
+    padding: 30px 0;
+    border-bottom: 1px solid #000;
+}
+
+.payment-info,
+.delivery-info {
+    padding: 30px 30px;
+}
+
+.delivery-info p {
+    line-height: 15px;
+}
+
+.item-purchase {
+    min-width: 400px;
+    margin-left: 100px;
+}
+
+.payment {
+    position: relative;
+    margin-bottom: 80px;
+    text-align: center;
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+.payment td {
+    padding: 20px 40px;
+}
+
+tr:not(:last-child) td {
+    border-bottom: 1px solid black;
+    /* 各行の下に線を引く */
+}
+
+.purchase-button {
+    width: 100%;
+    padding: 8px 32px;
+    background-color: #ff5555;
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
 @media screen and (max-width: 850px) {
     .header-container {
@@ -64,4 +166,15 @@
 
         gap: 10px;
     }
+
+    .purchase-container {
+        flex-direction: column;
+    }
+
+    .item-purchase {
+        flex-wrap: wrap;
+        margin-top: 50px;
+        width: 400px;
+    }
+
 }

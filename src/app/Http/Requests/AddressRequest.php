@@ -29,4 +29,5 @@ class AddressRequest extends FormRequest
             'address' => 'required | string',
             'building' => 'required | string',
     ];
+    }
 }

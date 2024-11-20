@@ -24,45 +24,57 @@
 @endsection
 
 @section('content')
-<div class="purchase-container">
-    <div class = "item-info__group">
-        <div class="item-info">
-            <div class="item-image">
-            <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}">
+<form action="/purchase/{{ $item->id }}" method="POST">
+    @csrf
+    <div class="purchase-container">
+        <div class="item-info__group">
+            <div class="info__group">
+                <div class="item-info">
+                    <img class="item-image" src="{{ asset($item->image_path) }}" alt="{{ $item->name }}">
+                </div>
+                <div class="item-name">
+                    <h2>{{ $item->name }}</h2>
+                    @if ($item->purchases()->exists())
+                    <div class="item-status">Sold</div>
+                    @endif
+                    <p class="price">¥{{ number_format($item->price) }} (税込)</p>
+                </div>
+            </div>
+
+            <div class="payment-info">
+                <h3>支払い方法</h3>
+                <select class="payment-method" name="payment_method">
+                    <option value="">選択してください</option>
+                    <option value="コンビニ払い" {{ old('payment_method', $paymentMethod ?? '') == 'コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>
+                    <option value="カード支払い" {{ old('payment_method', $paymentMethod ?? '') == 'カード支払い' ? 'selected' : '' }}>カード支払い</option>
+                </select>
+            </div>
+
+            <div class="delivery-info">
+                <div class="delivery">
+                    <h3>配送先</h3>
+                    <input type="hidden" name="shipping_address" value="{{ $user->post_code }} {{ $user->address }} {{ $user->building }}">
+                    <a class="address-change" href="/purchase/address/{{ $item->id }}">変更する</a>
+                </div>
+                <p>〒{{ $user->post_code }}</p>
+                <p>{{ $user->address }}</p>
+                <p>{{ $user->building }}</p>
+            </div>
         </div>
-        <div class="item-name">
-            <h2>{{ $item->name }}</h2>
-            <p class = "price">¥{{ number_format($item->price) }} (税込)</p>
+
+        <div class="item-purchase">
+            <table class="payment">
+                <tr>
+                    <td>商品代金</td>
+                    <td>¥{{ number_format($item->price) }}</td>
+                </tr>
+                <tr>
+                    <td>支払い方法</td>
+                    <td>{{ old('payment_method', $paymentMethod ?? '未選択') }}</td>
+                </tr>
+            </table>
+            <button class="purchase-button" type="submit">購入する</button>
         </div>
     </div>
-
-        <div class="payment-info">
-            <h3>支払い方法</h3>
-            <select>
-                <option value="">選択してください</option>
-                <option value="コンビニ払い">コンビニ払い</option>
-                <option value="クレジットカード">クレジットカード</option>
-            </select>
-        </div>
-
-        <div class="delivery-info">
-            <h3>配送先</h3>
-            <p>{{ $user['address'] }}</p>
-            <p>{{ $user['address_details'] }}</p>
-            <a href="#">変更する</a>
-        </div>
-    <div class="item-purchase">
-        <table>
-            <tr>
-                <td>商品代金</td>
-                <td>¥ {{ number_format($item['price']) }}</td>
-            </tr>
-            <tr>
-                <td>支払い方法</td>
-                <td>コンビニ払い</td>
-            </tr>
-        </table>
-        <button>購入する</button>
-    </div>
-</div>
+</form>
 @endsection

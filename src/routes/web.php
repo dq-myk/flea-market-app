@@ -23,7 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/item/{item}/like', [ItemController::class, 'like']);
     Route::post('/item/{item_id}/comment', [ItemController::class, 'comment']);
 
-    Route::get('/purchase', [PurchaseController::class, 'purchase']);
+    Route::get('/purchase/{item_id}', [PurchaseController::class, 'show']);
+    Route::post('/purchase/{item_id}', [PurchaseController::class, 'purchase']);
+    Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'edit']);
+    Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'address']);
 });
 
 

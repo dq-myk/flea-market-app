@@ -41,6 +41,9 @@
                     @endif
                 </div>
                 <div class="item-name">{{ $item->name }}</div>
+                @if ($item->purchases()->exists())
+                <div class="item-status">Sold</div>
+                @endif
             </div>
         @endforeach
     @else
@@ -54,6 +57,9 @@
                     @endif
                 </div>
                 <div class="item-name">{{ $item->name }}</div>
+                @if ($item->purchases()->exists())
+                <div class="item-status">Sold</div>
+                @endif
             </div>
         @endforeach
     @endif

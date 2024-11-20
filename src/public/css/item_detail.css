@@ -15,7 +15,6 @@ textarea {
 
 .search-form__item {
     flex-grow: 1;
-    max-width: 600px;
 }
 
 .search-form__item-input {
@@ -59,6 +58,10 @@ textarea {
 
 .item-detail {
     margin-left: 50px;
+}
+
+.item-status {
+    color: #FF0000;
 }
 
 .brand {
@@ -184,6 +187,11 @@ textarea {
     height: 250px;
     margin-bottom: 25px;
     border: 2px solid #5F5F5F;
+}
+
+.comment__error-message {
+    color: #FF9494;
+    font-size: 2.0rem;
 }
 
 .comment-submit-button {

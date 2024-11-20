@@ -30,6 +30,9 @@
     </div>
     <div class="item-detail">
         <h2>{{ $item->name }}</h2>
+        @if ($item->purchases()->exists())
+        <div class="item-status">Sold</div>
+        @endif
         <p class = "brand">{{ $item->brand }}</p>
         <p class = "price">¥{{ number_format($item->price) }} (税込)</p>
         <div class="item-purchase__group">
@@ -51,16 +54,16 @@
                 </span>
             </div>
         </div>
-            <form action="/purchase" method="get">
+            <form action="/purchase/{{ $item->id }}" method="GET">
             @csrf
-            <button type="submit" class="purchase-button btn">購入手続きへ</button>
+                <button type="submit" class="purchase-button btn">購入手続きへ</button>
             </form>
-        <div class="item__description">
-            <h3>商品説明</h3>
-            <p>カラー：{{ $item->color }}</p>
-            <div class ="status__group">
-                <p>{{ $item->status }}</p>
-                <p>{{ $item->status_comment }}</p>
+            <div class="item__description">
+                <h3>商品説明</h3>
+                <p>カラー：{{ $item->color }}</p>
+                <div class ="status__group">
+                    <p>{{ $item->status }}</p>
+                    <p>{{ $item->status_comment }}</p>
             </div>
             <p>購入後、即発送いたします。</p>
         </div>
@@ -103,6 +106,8 @@
                 @csrf
                 <h3>商品へのコメント</h3>
                 <textarea name="content"></textarea>
+                <p class = "comment__error-message">
+                </p>
                 <button  class="comment-submit-button btn" type="submit">コメントを送信する</button>
             </form>
         </div>
