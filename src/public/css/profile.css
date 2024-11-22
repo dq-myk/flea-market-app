@@ -1,0 +1,142 @@
+a {
+    text-decoration: none;
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.search-form__item {
+    flex-grow: 1;
+}
+
+.search-form__item-input {
+    width: 100%;
+    padding: 8px 80px 8px 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.header__link {
+    color: #fff;
+}
+
+.sell-button {
+    padding: 8px 20px;
+    color: #000;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.profile-view__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.profile-img {
+    display: flex;
+    align-items: center;
+    gap: 50px
+}
+
+.profile-img__item {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-img__item--no-image {
+    background-color: #D9D9D9;
+    width: 70px;
+    height: 70px;
+}
+
+.profile__edit__group {
+    margin-left: 200px;
+}
+
+.profile__edit__btn {
+    display: none;
+}
+
+.profile__edit__btn-label {
+    display: inline-block;
+    color: #FF5555;
+    padding: 8px 16px;
+    border: 2px solid #FF5555;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.profile__tab-menu {
+    border-bottom: 1px solid #000;
+}
+
+.profile__tab-menu__inner {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 32px auto 0;
+    width: 84%;
+    gap: 50px;
+}
+
+.profile__tab {
+    margin-left: 150px;
+    color: #000;
+}
+
+.profile__tab.active {
+    color: #FF0000;
+}
+
+.item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(25% - 20px);
+    box-sizing: border-box;
+}
+
+.item-img img {
+    width: 60%;
+    height: auto;
+    object-fit: cover;
+}
+
+.item-name {
+    font-size: 2.5rem;
+    text-align: left;
+    align-self: flex-start;
+}
+
+@media screen and (max-width: 850px) {
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 10px;
+    }
+
+    .header-nav {
+        justify-content: center;
+        flex-wrap: wrap;
+
+        gap: 10px;
+    }
+}

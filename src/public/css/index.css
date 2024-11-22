@@ -44,8 +44,11 @@ a {
 }
 
 .tab-menu__inner {
+    display: flex;
+    flex-wrap: wrap;
     margin: 32px auto 0;
     width: 84%;
+    gap: 50px;
 }
 
 .tab {
@@ -55,12 +58,6 @@ a {
 
 .tab.active {
     color: #FF0000;
-}
-
-.tab-menu__inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
 }
 
 .item-content {

@@ -10,17 +10,19 @@ use App\Http\Requests\CommentRequest;
 
 class ItemController extends Controller
 {
-    //商品一覧ページを表示
     public function index(Request $request)
     {
         $tab = $request->query('tab', 'home');
 
+        // $tabが'mylist'の場合
         if ($tab === 'mylist') {
-            // 'likes'リレーションを使用して、ユーザーが「いいね」した商品を取得
-            $items = auth()->user()->likes()->with('item')->get()->pluck('item');
+            if (!auth()->check() || !auth()->user()) {
+                $items = collect();
+            } else {
+                $items = auth()->user()->likes()->with('item')->get()->pluck('item');
+            }
         } else {
-            // その他のタブ用の処理
-            $items = Item::all();
+            $items = Item::whereDoesntHave('sells')->get();
         }
 
         return view('index', compact('tab', 'items'));
@@ -39,18 +41,17 @@ class ItemController extends Controller
     }
 
         //商品詳細ページを表示
-        public function show($id)
+        public function show($item_id)
     {
         // コメント数といいね数も含めて商品情報を取得
-        $item = Item::withCount(['comments', 'likes'])->findOrFail($id);
+        $item = Item::withCount(['comments', 'likes'])->findOrFail($item_id);
 
-        // ログインユーザーがその商品をいいねしているかを判定
-        $user = auth()->user();
-        $isLiked = $user && $item->likes()->where('user_id', $user->id)->exists();
+        $user = auth()->check() ? auth()->user() : null; // 認証状態を確認してユーザー情報を取得
+        $isLiked = $user ? $item->likes()->where('user_id', $user->id)->exists() : false;
 
         return view('item_detail', [
             'item' => $item,
-            'item_id' => $id,
+            'item_id' => $item_id,
             'user' => $user,
             'commentsCount' => $item->comments_count,
             'likesCount' => $item->likes_count,

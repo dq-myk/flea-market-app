@@ -44,7 +44,7 @@
                     <!-- 画像選択ボタン -->
                     <div class="profile-img__select">
                         <input class="profile-img__btn" type="file" name="profile_image" accept="image/*" id="imgInput">
-                        <label for="imgInput" class="profile-img__btn-label">画像を選択する</label>
+                        <label class="profile-img__btn-label" for="imgInput">画像を選択する</label>
                     </div>
                 </div>
                 <p class="profile_image__error-message">
@@ -56,22 +56,22 @@
 
             <div class="profile__edit__group">
                 <label class="profile__edit__label" for="name">ユーザー名</label>
-                <input class="profile__edit__input" type="text" name="name" value="{{ old('name') }}">
+                <input class="profile__edit__input" type="text" name="name" value="{{ old('name', $user->name) }}">
             </div>
 
             <div class="profile__edit__group">
                 <label class="profile__edit__label" for="post_code">郵便番号</label>
-                <input class="profile__edit__input" type="text" name="post_code" pattern="\d{3}-\d{4}" value="{{ old('post_code') }}">
+                <input class="profile__edit__input" type="text" name="post_code" pattern="\d{3}-\d{4}" value="{{ old('post_code', $user->post_code) }}">
             </div>
 
             <div class="profile__edit__group">
                 <label class="profile__edit__label" for="address">住所</label>
-                <input class="profile__edit__input" type="text" name="address" value="{{ old('address') }}">
+                <input class="profile__edit__input" type="text" name="address" value="{{ old('address', $user->address) }}">
             </div>
 
             <div class="profile__edit__group">
                 <label class="profile__edit__label" for="building">建物名</label>
-                <input class="profile__edit__input" type="text" name="building" value="{{ old('building') }}">
+                <input class="profile__edit__input" type="text" name="building" value="{{ old('building', $user->building) }}">
             </div>
 
             <div>

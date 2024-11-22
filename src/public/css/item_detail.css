@@ -4,6 +4,7 @@ a {
 
 textarea {
     font-size: 2rem;
+    resize: none;
 }
 
 .header-container {
@@ -162,11 +163,11 @@ textarea {
     gap: 30px
 }
 
-.profile-img__inner {
+/* .profile-img__inner {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-}
+} */
 
 .profile-img__item {
     width: 70px;
