@@ -41,17 +41,17 @@ class ItemController extends Controller
     }
 
         //商品詳細ページを表示
-        public function show($item_id)
+        public function show($id)
     {
         // コメント数といいね数も含めて商品情報を取得
-        $item = Item::withCount(['comments', 'likes'])->findOrFail($item_id);
+        $item = Item::withCount(['comments', 'likes'])->findOrFail($id);
 
-        $user = auth()->check() ? auth()->user() : null; // 認証状態を確認してユーザー情報を取得
+        $user = auth()->check() ? auth()->user() : null;
         $isLiked = $user ? $item->likes()->where('user_id', $user->id)->exists() : false;
 
         return view('item_detail', [
             'item' => $item,
-            'item_id' => $item_id,
+            'item_id' => $id,
             'user' => $user,
             'commentsCount' => $item->comments_count,
             'likesCount' => $item->likes_count,

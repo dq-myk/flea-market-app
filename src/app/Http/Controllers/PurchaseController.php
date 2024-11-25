@@ -20,30 +20,34 @@ class PurchaseController extends Controller
         return view('purchase', compact('item', 'user'));
     }
 
-    // 購入処理
-    public function purchase(PurchaseRequest $request, $item_id)
+    //選択した支払方法を小計欄へ反映
+    public function confirm(PurchaseRequest $request, $item)
+    {
+        $validated = $request->validated();
+
+        $itemData = Item::findOrFail($item);
+
+        return view('purchase', [
+            'paymentMethod' => $validated['payment_method'],
+            'item' => $itemData,
+            'user' => auth()->user(),
+        ]);
+    }
+
+    //購入処理
+    public function complete(PurchaseRequest $request, $item_id)
     {
         $item = Item::findOrFail($item_id);
         $user = auth()->user();
 
-        // フォーム送信後の支払方法を取得、デフォルト値は '未選択'
-        $paymentMethod = $request->input('payment_method', '未選択');
+        // 購入処理の実行
+        $purchase = new Purchase();
+        $purchase->user_id = auth()->id();
+        $purchase->item_id = $item->id;
+        $purchase->save();
 
-        if ($request->isMethod('post')) {
-            if ($item->purchases()->exists()) {
-                return redirect('/');
-            }
-
-            $purchase = new Purchase();
-            $purchase->user_id = $user->id;
-            $purchase->item_id = $item->id;
-            $purchase->save();
-
-            return redirect("/");
-        }
-
-        // ビューをレンダリング
-        return view('purchase', compact('item', 'user', 'paymentMethod'));
+        // 商品一覧画面にリダイレクト
+        return redirect('/');
     }
 
     //配送先変更画面を表示

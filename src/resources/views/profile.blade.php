@@ -48,7 +48,7 @@
 
     <div class="profile__tab-menu">
         <a href="/mypage?tab=sell" class="profile__tab profile__tab__sell {{ $tab == 'sell' ? 'active' : '' }}">出品した商品</a>
-        <a href="/mypage?tab=buy" class="profile__tab profile__tab__purchase {{ $tab == 'purchase' ? 'active' : '' }}">購入した商品</a>
+        <a href="/mypage?tab=buy" class="profile__tab profile__tab__buy {{ $tab == 'buy' ? 'active' : '' }}">購入した商品</a>
     </div>
 
     <div class="profile__tab-menu__inner">

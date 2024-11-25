@@ -19,13 +19,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage/profile', [UserController::class, 'show']);
     Route::post('/mypage/profile', [UserController::class, 'profile']);
 
-    Route::get('/?tab=mylist', [ItemController::class, 'index']);
+    Route::get('/', [ItemController::class, 'index']);
     Route::get('/search', [ItemController::class, 'search']);
     Route::post('/item/{item}/like', [ItemController::class, 'like']);
     Route::post('/item/{item_id}/comment', [ItemController::class, 'comment']);
 
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'show']);
-    Route::post('/purchase/{item_id}', [PurchaseController::class, 'purchase']);
+    Route::post('/purchase/{item_id}/confirm', [PurchaseController::class, 'confirm']);
+    Route::post('/purchase/{item_id}/complete', [PurchaseController::class, 'complete']);
     Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'edit']);
     Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'address']);
 

@@ -13,15 +13,13 @@ class MyPageController extends Controller
     //マイページで出品と購入を表示
     public function show(Request $request)
     {
-        $tab = $request->query('tab', 'sell'); // デフォルトは'sell'
-        $user = auth()->user(); // ログイン中のユーザーを取得
+        $tab = $request->query('tab', 'sell');
+        $user = auth()->user();
         $items = [];
 
         if ($tab === 'sell') {
-            // 出品した商品を取得
             $items = $user->sells()->with('item')->get()->pluck('item');
-        } elseif ($tab === 'purchase') {
-            // 購入した商品を取得
+        } elseif ($tab === 'buy') {
             $items = $user->purchases()->with('item')->get()->pluck('item');
         }
 

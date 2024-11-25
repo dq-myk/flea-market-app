@@ -85,6 +85,7 @@ a {
     color: #FF0000;
 }
 
+
 @media screen and (max-width: 850px) {
     .header-container {
         flex-direction: column;

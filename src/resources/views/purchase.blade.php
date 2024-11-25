@@ -24,7 +24,7 @@
 @endsection
 
 @section('content')
-<form action="/purchase/{{ $item->id }}" method="POST">
+<form action="/purchase/{{ $item->id }}/confirm" method="POST">
     @csrf
     <div class="purchase-container">
         <div class="item-info__group">
@@ -43,7 +43,7 @@
 
             <div class="payment-info">
                 <h3>支払い方法</h3>
-                <select class="payment-method" name="payment_method">
+                <select class="payment-method" name="payment_method" onchange="this.form.submit()">
                     <option value="">選択してください</option>
                     <option value="コンビニ払い" {{ old('payment_method', $paymentMethod ?? '') == 'コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>
                     <option value="カード支払い" {{ old('payment_method', $paymentMethod ?? '') == 'カード支払い' ? 'selected' : '' }}>カード支払い</option>
@@ -70,10 +70,12 @@
                 </tr>
                 <tr>
                     <td>支払い方法</td>
-                    <td>{{ old('payment_method', $paymentMethod ?? '未選択') }}</td>
+                    <td>
+                        {{ $paymentMethod ?? '未選択' }}
+                    </td>
                 </tr>
             </table>
-            <button class="purchase-button" type="submit">購入する</button>
+            <button class="purchase-button" type="submit" formaction="/purchase/{{ $item->id }}/complete">購入する</button>
         </div>
     </div>
 </form>

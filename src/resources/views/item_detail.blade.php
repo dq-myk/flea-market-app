@@ -91,12 +91,13 @@
                 <div class="comment-view">
                     <!-- 既存の画像があれば表示 -->
                     <div class="profile-img">
-                        @if ($user->image_path && file_exists(public_path($user->image_path)))
-                            <img class="profile-img__item" src="{{ asset($user->image_path) }}" alt="プロフィール画像">
+                        @if ($comment->user && $comment->user->image_path && file_exists(public_path($comment->user->image_path)))
+                            <img class="profile-img__item" src="{{ asset($comment->user->image_path) }}" alt="プロフィール画像">
                         @else
-                            <!-- 画像がない場合は画像枠のみ表示 -->
                             <div class="profile-img__item profile-img__item--no-image"></div>
                         @endif
+
+
                     <strong>{{ $comment->user->name }}</strong>
                     </div>
                     <p>{{ $comment->content }}</p>
