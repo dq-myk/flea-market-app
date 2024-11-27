@@ -19,8 +19,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage/profile', [UserController::class, 'show']);
     Route::post('/mypage/profile', [UserController::class, 'profile']);
 
-    Route::get('/', [ItemController::class, 'index']);
-    Route::get('/search', [ItemController::class, 'search']);
     Route::post('/item/{item}/like', [ItemController::class, 'like']);
     Route::post('/item/{item_id}/comment', [ItemController::class, 'comment']);
 

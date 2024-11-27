@@ -10,40 +10,34 @@ use App\Http\Requests\CommentRequest;
 
 class ItemController extends Controller
 {
+    //未承認、承認時の表示、検索機能保持設定
     public function index(Request $request)
     {
         $tab = $request->query('tab', 'home');
+        $keyword = $request->query('keyword');
 
-        // $tabが'mylist'の場合
+        $itemsQuery = Item::query()->keywordSearch($keyword);
+
         if ($tab === 'mylist') {
-            if (!auth()->check() || !auth()->user()) {
-                $items = collect();
+            if (auth()->check()) {
+                $itemsQuery->whereHas('likes', function ($query) {
+                    $query->where('user_id', auth()->id());
+                });
             } else {
-                $items = auth()->user()->likes()->with('item')->get()->pluck('item');
+                $itemsQuery->whereRaw('1 = 0');
             }
         } else {
-            $items = Item::whereDoesntHave('sells')->get();
+            $itemsQuery->whereDoesntHave('sells');
         }
 
-        return view('index', compact('tab', 'items'));
-    }
+        $items = $itemsQuery->get();
 
-    //検索機能の実装
-    public function search(Request $request)
-    {
-        $items = Item::query()
-            ->KeywordSearch($request->keyword)
-            ->get();
-
-        $tab = $request->query('tab', 'home');
-
-        return view('index', compact('items', 'tab'));
+        return view('index', compact('tab', 'items', 'keyword'));
     }
 
         //商品詳細ページを表示
         public function show($id)
     {
-        // コメント数といいね数も含めて商品情報を取得
         $item = Item::withCount(['comments', 'likes'])->findOrFail($id);
 
         $user = auth()->check() ? auth()->user() : null;
@@ -55,7 +49,7 @@ class ItemController extends Controller
             'user' => $user,
             'commentsCount' => $item->comments_count,
             'likesCount' => $item->likes_count,
-            'isLiked' => $isLiked // ユーザーがいいねしているかどうか
+            'isLiked' => $isLiked
         ]);
     }
 
@@ -64,7 +58,6 @@ class ItemController extends Controller
     {
         $user = auth()->user();
 
-        // すでにこの商品をいいねしているかチェック
         $existingLike = Like::where('user_id', $user->id)->where('item_id', $item->id)->first();
 
         if ($existingLike) {
@@ -76,7 +69,7 @@ class ItemController extends Controller
             ]);
         }
 
-        $item->update(['likes_count' => $item->likes()->count()]); // 商品のいいね数を更新
+        $item->update(['likes_count' => $item->likes()->count()]);
 
         return redirect("/item/{$item->id}");
     }
