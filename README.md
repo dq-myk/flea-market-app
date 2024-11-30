@@ -7,6 +7,7 @@
 - Nginx Server : 1.21.1
 - PHP : 7.4.9-fpm
 - MySQL 管理ツール : phpMyadmin
+- 開発用メールサーバ : mailhog
 
 ## 環境構築
 
@@ -37,6 +38,9 @@
    categories テーブルに 14 件、  
    items テーブルに 10 件のダミーデータを作成
 
-### 4. ER 図の作成
+### 4. mailhogでのメール受信テスト
+1. 使用メールアドレス : no-reply@example.com
+
+### 5. ER 図の作成
 
 ![ER図](./src/flea-market-test_ER.drawio.svg)

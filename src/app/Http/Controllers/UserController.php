@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-        // ユーザー登録処理
+    //ユーザー登録処理
     public function register(RegisterRequest $request)
     {
         // バリデーション後のデータを取得
