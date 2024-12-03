@@ -2,20 +2,12 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\UserController;
-
-Auth::routes(['verify' => true]);
-
-Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
-    // 実際には、ユーザーの確認と処理を行います
-    return 'Email Verified!';
-})->name('verification.verify');
 
 // 未認証ユーザーがアクセスできるルート
 Route::get('/', [ItemController::class, 'index']);
@@ -38,6 +30,7 @@ Route::middleware(['verified'])->group(function () {
         Route::post('/purchase/{item_id}/complete', [PurchaseController::class, 'complete']);
         Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'edit']);
         Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'address']);
+        Route::post('/purchase/{item_id}/stripe-session', [PurchaseController::class, 'stripeSession']);
 
         Route::get('/mypage', [MyPageController::class, 'show']);
 

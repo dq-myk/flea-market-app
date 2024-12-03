@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 use Illuminate\Http\Request;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\AddressRequest;
@@ -71,5 +73,34 @@ class PurchaseController extends Controller
         $user->save();
 
         return redirect("/purchase/{$item_id}");
+    }
+
+    // Stripe(決済処理画面)設定
+    public function stripeSession(PurchaseRequest $request, $item_id)
+    {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $item = Item::findOrFail($item_id);
+        $user = auth()->user();
+
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'product_data' => [
+                        'name' => $item->name,
+                    ],
+                    'unit_amount' => $item->price,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => url('/'),
+            'cancel_url' => url("/purchase/{$item_id}"),
+        ]);
+
+        return redirect($session->url);
     }
 }
