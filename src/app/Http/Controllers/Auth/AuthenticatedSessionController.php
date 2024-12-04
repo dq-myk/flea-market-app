@@ -18,19 +18,19 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
 
-        $user = Auth::user();
+        // $user = Auth::user();
 
-        // 初回ログインの場合プロフィール編集画面へ
-        if ($user->first_login) {
-            // 初回ログイン後、first_loginをfalseに更新
-            $user->update(['first_login' => false]);
+        // // 初回ログインの場合プロフィール編集画面へ
+        // if ($user->first_login) {
+        //     // 初回ログイン後、first_loginをfalseに更新
+        //     $user->update(['first_login' => false]);
 
-            return redirect('/mypage/profile');
-        }
+        //     return redirect('/mypage/profile');
+        // }
 
-        // 通常のリダイレクト先
-        return redirect()->intended('/');
+        // // 通常のリダイレクト先
+        // return redirect()->intended('/');
     }
 }

@@ -75,23 +75,26 @@ class PurchaseController extends Controller
         return redirect("/purchase/{$item_id}");
     }
 
-    // Stripe(決済処理画面)設定
     public function stripeSession(PurchaseRequest $request, $item_id)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
         $item = Item::findOrFail($item_id);
         $user = auth()->user();
 
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        // ユーザーが選択した決済方法を取得（デフォルトはカード払い）
+        $paymentMethod = $request->input('payment_method', 'card');
 
+        // 支払い方法の設定
+        $paymentMethodTypes = ['card', 'konbini'];
+
+        // Checkoutセッションを作成
         $session = Session::create([
-            'payment_method_types' => ['card'],
+            'payment_method_types' => $paymentMethodTypes,
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'jpy',
-                    'product_data' => [
-                        'name' => $item->name,
-                    ],
+                    'product_data' => ['name' => $item->name],
                     'unit_amount' => $item->price,
                 ],
                 'quantity' => 1,
@@ -101,6 +104,14 @@ class PurchaseController extends Controller
             'cancel_url' => url("/purchase/{$item_id}"),
         ]);
 
+        // 購入処理の実行
+        $purchase = new Purchase();
+        $purchase->user_id = auth()->id();
+        $purchase->item_id = $item->id;
+        $purchase->save();
+
+        // セッションのURLにリダイレクト
         return redirect($session->url);
     }
+
 }
