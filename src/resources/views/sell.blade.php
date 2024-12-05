@@ -41,7 +41,6 @@
             <h3>商品の詳細</h3>
                 <div class="category__group">
                     <label>カテゴリー</label>
-                    <!-- チェックボックスで複数カテゴリ選択 -->
                     <div class="categories">
                         @foreach($categories as $category)
                             <div class="category-btn__group">
@@ -49,6 +48,27 @@
                                 <label for="category_{{ $category->id }}">{{ $category->content }}</label>
                             </div>
                         @endforeach
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="brand-name">ブランド名</label>
+                    <input class = "brand-input" type="text" name="brand" id="brand-name" required />
+                </div>
+
+                <div class ="other-detail">
+                    <div class="form-group">
+                        <label for="color-name">商品カラー</label>
+                        <input class = "color-input" type="text" name="color" id="color-name" required />
+                    </div>
+
+                    <div class="radio-options">
+                        <label>
+                            <input class = "radio-check" type="radio" name="status" value="新品" required> 新品
+                        </label>
+                        <label>
+                            <input class = "radio-check" type="radio" name="status" value="中古品" required> 中古品
+                        </label>
                     </div>
                 </div>
 
@@ -63,6 +83,11 @@
                         <option value="状態が悪い">状態が悪い</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="status-comment">商品状態へのコメント</label>
+                <textarea name="status_comment" id="status-comment" required></textarea>
             </div>
 
             <div class="sell-description">

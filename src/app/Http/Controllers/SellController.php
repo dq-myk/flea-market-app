@@ -30,10 +30,14 @@ class SellController extends Controller
         // 出品商品を保存
         $item = Item::create([
             'name' => $request->item_name,
+            'brand' => $request->brand,
             'detail' => $request->item_detail,
             'price' => $request->price,
+            'color' => $request->color,
             'condition' => $request->condition,
-            'image_path' => $imagePath, // 保存した画像のパス
+            'status' => $request->status,
+            'status_comment' => $request->status_comment,
+            'image_path' => $imagePath,
             'user_id' => Auth::id(),
         ]);
 
