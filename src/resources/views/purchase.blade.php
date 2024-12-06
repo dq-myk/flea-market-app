@@ -75,7 +75,7 @@
                     </td>
                 </tr>
             </table>
-            <button class="purchase-button" type="submit" formaction="/purchase/{{ $item->id }}/stripe-session">購入する</button>
+            <button class="purchase-button" type="submit" formaction="/purchase/{{ $item->id }}/complete">購入する</button>
         </div>
     </div>
 </form>
