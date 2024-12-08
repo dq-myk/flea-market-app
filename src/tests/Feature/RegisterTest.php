@@ -11,7 +11,7 @@ use App\Models\User;
 class RegisterTest extends TestCase
 {
     //会員登録ページ表示テスト
-    public function test_register_page_is_access()
+    public function test_register_access()
     {
         $response = $this->get('/register');
         $response->assertStatus(200);
@@ -100,6 +100,6 @@ class RegisterTest extends TestCase
         $user = User::where('email', 'test@example.com')->first();
         $this->assertTrue(Hash::check('password123', $user->password));
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect('/login');
     }
 }

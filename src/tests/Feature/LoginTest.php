@@ -10,8 +10,10 @@ use App\Models\User;
 
 class LoginTest extends TestCase
 {
+    use RefreshDatabase;
+
     //ログインページ表示テスト
-    public function test_login_page_is_access()
+    public function test_login_access()
     {
         $response = $this->get('/login');
         $response->assertStatus(200);
@@ -54,18 +56,19 @@ class LoginTest extends TestCase
     public function test_login()
     {
         $user = User::factory()->create([
+            'name' => 'テストユーザー',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password123'),
             'email_verified_at' => now(),
         ]);
 
         $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
+            'email' => 'test@example.com',
+            'password' => 'password123',
         ]);
 
-        // カスタムリダイレクト先を確認
         $response->assertRedirect('/mypage/profile');
 
-        // 認証されていることを確認
         $this->assertAuthenticatedAs($user);
     }
 }
