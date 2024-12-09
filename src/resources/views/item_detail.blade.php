@@ -41,11 +41,11 @@
                 @csrf
                 <button type="submit" class="like-button">
                     @if ($isLiked)
-                <img class="icon" src="{{ asset('storage/images/星アイコン黄色.png') }}" alt="like_icon">
-            @else
-                <img class="icon" src="{{ asset('storage/images/星アイコン.png') }}" alt="like_icon">
-            @endif
-            {{ $item->likes_count }}
+                    <img class="icon" src="{{ asset('storage/images/星アイコン黄色.png') }}" alt="like_icon">
+                    @else
+                    <img class="icon" src="{{ asset('storage/images/星アイコン.png') }}" alt="like_icon">
+                    @endif
+                    {{ $item->likes_count }}
                 </button>
                 </form>
                 <span>
@@ -108,6 +108,9 @@
                 <h3>商品へのコメント</h3>
                 <textarea name="content"></textarea>
                 <p class = "comment__error-message">
+                @error('content')
+                {{ $message }}
+                @enderror
                 </p>
                 <button  class="comment-submit-button btn" type="submit">コメントを送信する</button>
             </form>

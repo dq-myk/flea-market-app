@@ -60,5 +60,11 @@ class Item extends Model
         return $query;
     }
 
+    public function likeIcon()
+    {
+        return $this->likes()->exists()
+            ? 'storage/images/星アイコン黄色.png'
+            : 'storage/images/星アイコン.png';
+    }
 }
 

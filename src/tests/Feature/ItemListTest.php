@@ -13,7 +13,7 @@ use App\Models\Sell;
 
 class ItemListTest extends TestCase
 {
-        use RefreshDatabase;
+    use RefreshDatabase;
 
     public function setUp(): void
     {

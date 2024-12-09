@@ -13,7 +13,7 @@ use App\Models\Purchase;
 
 class MyListTest extends TestCase
 {
-        use RefreshDatabase;
+    use RefreshDatabase;
 
     //いいねした商品だけが表示される
         public function test_my_list_like()

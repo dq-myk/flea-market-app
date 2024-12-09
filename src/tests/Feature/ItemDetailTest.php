@@ -14,7 +14,7 @@ use App\Models\Like;
 
 class ItemDetailTest extends TestCase
 {
-        use RefreshDatabase;
+    use RefreshDatabase;
 
     public function test_view_item_detail()
     {

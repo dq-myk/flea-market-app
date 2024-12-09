@@ -35,8 +35,8 @@ class ItemController extends Controller
         return view('index', compact('tab', 'items', 'keyword'));
     }
 
-        //商品詳細ページを表示
-        public function show($id)
+    //商品詳細ページを表示
+    public function show($id)
     {
         $item = Item::withCount(['comments', 'likes'])->findOrFail($id);
 
@@ -53,8 +53,8 @@ class ItemController extends Controller
         ]);
     }
 
-        //いいね処理
-        public function like(Item $item)
+    //いいね処理
+    public function like(Item $item)
     {
         $user = auth()->user();
 
@@ -74,8 +74,8 @@ class ItemController extends Controller
         return redirect("/item/{$item->id}");
     }
 
-        //コメント投稿
-        public function comment(CommentRequest $request, $item_id)
+    //コメント投稿
+    public function comment(CommentRequest $request, $item_id)
     {
         $item = Item::findOrFail($item_id);
 
