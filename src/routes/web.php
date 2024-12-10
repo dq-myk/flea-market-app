@@ -28,10 +28,10 @@ Route::post('/register', [UserController::class, 'register']);
 
         Route::get('/purchase/{item_id}', [PurchaseController::class, 'show']);
         Route::post('/purchase/{item_id}/confirm', [PurchaseController::class, 'confirm']);
-        // Route::post('/purchase/{item_id}/complete', [PurchaseController::class, 'complete']);
+        Route::post('/purchase/{item_id}/complete', [PurchaseController::class, 'complete']);
         Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'edit']);
         Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'address']);
-        Route::post('/purchase/{item_id}/complete', [PurchaseController::class, 'complete']);
+
 
         Route::get('/mypage', [MyPageController::class, 'show']);
 

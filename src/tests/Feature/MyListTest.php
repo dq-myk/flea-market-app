@@ -75,7 +75,6 @@ class MyListTest extends TestCase
     //購入済み商品を表示
     public function test_my_list_purchase()
     {
-        // ユーザーを作成してログイン
         $user = User::create([
             'name' => 'テストユーザー',
             'email' => 'test@example.com',
@@ -106,6 +105,7 @@ class MyListTest extends TestCase
         $response = $this->actingAs($user)->get('/?tab=mylist');
 
         $response->assertStatus(200);
+        $response->assertSee($item->image_path);
         $response->assertSee($item->name);
         $response->assertSeeText('Sold');
     }
@@ -135,7 +135,7 @@ class MyListTest extends TestCase
         ]);
 
         $response = $this->get('/?tab=mylist');
-
+        $this->assertDatabaseMissing('items', ['image_path' => 'storage/images/' . rawurlencode(utf8_decode($item->name)) . '.jpg']);
         $itemName = utf8_decode($item->name);
         $this->assertDatabaseMissing('items', ['name' => $itemName]);
 
@@ -146,9 +146,7 @@ class MyListTest extends TestCase
     public function test_unapproved_not_display()
     {
         $response = $this->get('/?tab=mylist');
-
         $response->assertStatus(200);
-
         $response->assertDontSee('No items available');
     }
 }

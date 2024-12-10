@@ -183,6 +183,7 @@ class ItemListTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->get('/');
+        $response->assertSee($item->image_path);
         $response->assertSee($item->name);
         $response->assertSeeText('Sold');
     }
@@ -212,10 +213,9 @@ class ItemListTest extends TestCase
         ]);
 
         $response = $this->get('/');
-
+        $response->assertSee($item->image_path);
         $itemName = utf8_decode($item->name);
         $this->assertDatabaseMissing('items', ['name' => $itemName]);
-
         $response->assertDontSee($itemName);
     }
 }
