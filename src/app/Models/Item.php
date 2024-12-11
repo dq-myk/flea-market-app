@@ -19,12 +19,6 @@ class Item extends Model
         return $this->belongsToMany(Category::class, 'item_category');
     }
 
-    // マイリストとのリレーション (1対多)
-    public function myLists()
-    {
-        return $this->hasMany(MyList::class);
-    }
-
     // いいねとのリレーション (1対多)
     public function likes()
     {
