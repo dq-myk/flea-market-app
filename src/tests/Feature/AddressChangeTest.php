@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\Item;
 use App\Models\User;
@@ -13,39 +14,13 @@ class AddressChangeTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function test_create_user(): User
-    {
-        $user = User::create([
-            'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password123'),
-        ]);
-
-        $this->actingAs($user);
-
-        return $user;
-    }
-
-    private function test_create_item(): Item
-    {
-        return Item::create([
-            'name' => 'HDD',
-            'brand' => 'Buffalo',
-            'detail' => '高速で信頼性の高いハードディスク',
-            'image_path' => 'storage/images/HDD+Hard+Disk.jpg',
-            'price' => 5000,
-            'color' => '黒',
-            'condition' => '目立った傷や汚れなし',
-            'status' => '新品',
-            'status_comment' => '商品の状態は良好です。目立った傷や汚れもありません。',
-        ]);
-    }
-
     //配送先住所変更
     public function test_address_change()
     {
-        $user = $this->test_create_user();
-        $item = $this->test_create_item();
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
+
+        $this->actingAs($user);
 
         $new_address = [
             'post_code' => '234-567',
@@ -68,8 +43,10 @@ class AddressChangeTest extends TestCase
     //配送先住所変更後の購入処理
     public function test_address_change_purchase()
     {
-        $user = $this->test_create_user();
-        $item = $this->test_create_item();
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
+
+        $this->actingAs($user);
 
         $new_address = [
             'post_code' => '234-567',

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\Item;
 use App\Models\User;
@@ -16,32 +17,17 @@ class ItemDetailTest extends TestCase
 {
     use RefreshDatabase;
 
+    //商品詳細情報取得
     public function test_view_item_detail()
     {
-        $user = User::create([
-            'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password123'),
-            'image_path' => 'storage/images/lunch.jpg',
-        ]);
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
 
         $this->actingAs($user);
 
         $categories = Category::create([
             'content' => '家電',
             'content' => 'ゲーム',
-        ]);
-
-        $item = Item::create([
-            'name' => 'HDD',
-            'brand' => 'Buffalo',
-            'detail' => '高速で信頼性の高いハードディスク',
-            'image_path' => 'storage/images/HDD+Hard+Disk.jpg',
-            'price' => 5000,
-            'color' => '黒',
-            'condition' => '目立った傷や汚れなし',
-            'status' => '新品',
-            'status_comment' => '商品の状態は良好です。目立った傷や汚れもありません。',
         ]);
 
         $item->categories()->attach($categories->pluck('id')->toArray());

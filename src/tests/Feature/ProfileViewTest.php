@@ -14,44 +14,18 @@ class ProfileViewTest extends TestCase
 {
     use RefreshDatabase;
 
+    //マイページ情報取得
     public function test_profile_view()
     {
-        $user = User::create([
-            'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password123'),
-            'image_path' => 'storage/images/lunch.jpg',
-        ]);
+        $user = User::factory()->create();
 
         $this->actingAs($user);
 
-        $purchaseItem = Item::create([
-            'name' => 'ノートPC',
-            'brand' => 'DELL',
-            'detail' => '高性能なノートパソコン',
-            'image_path' => 'storage/images/Living+Room+Laptop.jpg',
-            'price' => 45000,
-            'color' => 'シルバー',
-            'condition' => '良好',
-            'status' => '新品',
-            'status_comment' => '商品の状態は良好です。傷もありません。',
-        ]);
+        $purchaseItem = Item::factory()->create();
 
-        $sellItem = Item::create([
-            'name' => 'ワイヤレスマウス',
-            'brand' => 'Logitech',
-            'detail' => '無線のトラックボールマウスです',
-            'image_path' => 'storage/images/ワイヤレスマウス.jpg',
-            'price' => 2000,
-            'color' => '黒',
-            'condition' => '目立った傷や汚れなし',
-            'status' => '中古品',
-            'status_comment' => '使用済みですが、ほぼ新品の状態です',
-            'user_id' => $user->id
-        ]);
+        $sellItem = Item::factory()->create();
 
-        // マイページにアクセス
-        $response = $this->withoutMiddleware()->get('/mypage');
+        $response = $this->get('/mypage');
 
         $response->assertSee($user->image_path);
         $response->assertSee($user->name);
@@ -63,12 +37,12 @@ class ProfileViewTest extends TestCase
             'price' => 2000,
         ]);
 
-        $response = $this->actingAs($user)->get('/mypage?tab=buy');
+        $response = $this->get('/mypage?tab=buy');
         $response->assertStatus(200);
         $response->assertSee($purchaseItem->image_path);
         $response->assertSee($purchaseItem->name);
 
-        $response = $this->actingAs($user)->get('/mypage?tab=sell');
+        $response = $this->get('/mypage?tab=sell');
         $response->assertStatus(200);
         $response->assertSee($sellItem->image_path);
         $response->assertSee($sellItem->name);

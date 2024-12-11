@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\Item;
 use App\Models\User;
@@ -16,48 +17,29 @@ class PaymentMethodTest extends TestCase
     //選択した支払方法を即時反映
     public function test_payment_method()
     {
-        $user = User::create([
-            'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password123'),
-        ]);
+        $user = User::factory()->unverified()->create();
+    $item = Item::factory()->create();
 
-        if (!$user->hasVerifiedEmail()) {
-            $response = $this->actingAs($user)->post('/purchase/1/confirm', [
-                'payment_method' => 'カード支払い',
-            ]);
-            $response->assertStatus(302);
-            $response->assertRedirect('/email/verify');
-            return;
-        }
+    $this->actingAs($user);
 
-        $this->actingAs($user);
+    $response = $this->post('/purchase/' . $item->id . '/confirm', [
+        'payment_method' => 'カード支払い',
+    ]);
 
-        $item = Item::create([
-            'name' => 'ノートPC',
-            'brand' => 'DELL',
-            'detail' => '高性能なノートパソコン',
-            'image_path' => 'storage/images/Living+Room+Laptop.jpg',
-            'price' => 45000,
-            'color' => 'シルバー',
-            'condition' => '良好',
-            'status' => '新品',
-            'status_comment' => '商品の状態は良好です。傷もありません。',
-        ]);
+    $response->assertStatus(302);
+    $response->assertRedirect('/email/verify');
 
-        $paymentMethod = 'カード支払い';
+    $user->forceFill(['email_verified_at' => now()])->save();
 
-        // Act
-        $response = $this->actingAs($user)
-            ->post('/purchase/' . $item->id . '/confirm', [
-                'payment_method' => $paymentMethod,
-            ]);
+    $response = $this->actingAs($user)->post('/purchase/' . $item->id . '/confirm', [
+        'payment_method' => 'カード支払い',
+    ]);
 
-        $response->assertStatus(302);
-        $response->assertRedirect('/purchase/' . $item->id . '/confirm');
+    $response->assertStatus(302);
+    $response->assertRedirect('/purchase/' . $item->id . '/confirm');
 
-        $confirmationResponse = $this->get('/purchase/' . $item->id . '/confirm');
-        $confirmationResponse->assertViewHas('paymentMethod', $paymentMethod);
-        $confirmationResponse->assertViewHas('item', $item);
+    $confirmationResponse = $this->get('/purchase/' . $item->id . '/confirm');
+    $confirmationResponse->assertViewHas('paymentMethod', 'カード支払い');
+    $confirmationResponse->assertViewHas('item', $item);
     }
 }
