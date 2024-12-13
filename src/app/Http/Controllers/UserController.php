@@ -13,20 +13,18 @@ class UserController extends Controller
     //ユーザー登録処理
     public function register(RegisterRequest $request)
     {
-        // バリデーション後のデータを取得
         $validated = $request->validated();
 
-        // ユーザーを作成
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
 
-        // 登録後にログインページへリダイレクト
         return redirect('/login');
     }
 
+    //プロフィール画面表示
     public function show()
     {
         $user = Auth::user();
@@ -34,7 +32,7 @@ class UserController extends Controller
         return view('profile_edit', compact('user'));
     }
 
-    //プロフィール内容をデータベースに保存)
+    //プロフィール内容をデータベースに保存
     public function profile(ProfileRequest $request)
     {
         $user = auth()->user();
@@ -43,7 +41,6 @@ class UserController extends Controller
         $user->address = $request->address;
         $user->building = $request->building;
 
-        // 画像の処理
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $imagePath = $image->store('public/images');
