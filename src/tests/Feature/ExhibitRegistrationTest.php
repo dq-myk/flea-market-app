@@ -3,9 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 use App\Models\User;
@@ -16,6 +14,7 @@ class ExhibitRegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
+    //出品商品情報登録
     public function test_sell()
     {
         $user = User::factory()->create();

@@ -32,10 +32,9 @@ Route::post('/register', [UserController::class, 'register']);
         Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'edit']);
         Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'address']);
 
-
-        Route::get('/mypage', [MyPageController::class, 'show']);
-
         Route::get('/sell', [SellController::class, 'show']);
         Route::post('/sell', [SellController::class, 'store']);
+
+        Route::get('/mypage', [MyPageController::class, 'show']);
     });
 

@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
@@ -14,7 +12,7 @@ class ProfileViewTest extends TestCase
 {
     use RefreshDatabase;
 
-    //マイページ情報取得
+    //ユーザー情報取得
     public function test_profile_view()
     {
         $user = User::factory()->create();

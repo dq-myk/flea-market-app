@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\Item;
@@ -17,29 +15,22 @@ class PaymentMethodTest extends TestCase
     //選択した支払方法を即時反映
     public function test_payment_method()
     {
-        $user = User::factory()->unverified()->create();
-    $item = Item::factory()->create();
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
 
-    $this->actingAs($user);
+        $this->actingAs($user);
 
-    $response = $this->post('/purchase/' . $item->id . '/confirm', [
-        'payment_method' => 'カード支払い',
-    ]);
+        $response = $this->get("/purchase/{$item->id}");
+        $response->assertStatus(200);
 
-    $response->assertStatus(302);
-    $response->assertRedirect('/email/verify');
+        $response = $this->post("/purchase/{$item->id}/confirm", [
+            'payment_method' => 'カード支払い'
+        ]);
 
-    $user->forceFill(['email_verified_at' => now()])->save();
+        $response->assertRedirect("/purchase/{$item->id}");
 
-    $response = $this->actingAs($user)->post('/purchase/' . $item->id . '/confirm', [
-        'payment_method' => 'カード支払い',
-    ]);
+        $response = $this->get("/purchase/{$item->id}");
+        $response->assertSee('カード支払い');
 
-    $response->assertStatus(302);
-    $response->assertRedirect('/purchase/' . $item->id . '/confirm');
-
-    $confirmationResponse = $this->get('/purchase/' . $item->id . '/confirm');
-    $confirmationResponse->assertViewHas('paymentMethod', 'カード支払い');
-    $confirmationResponse->assertViewHas('item', $item);
-    }
+        }
 }

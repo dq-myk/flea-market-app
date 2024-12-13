@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\Item;
@@ -17,7 +15,7 @@ class MyListTest extends TestCase
 {
     use RefreshDatabase;
 
-    //いいねした商品だけが表示される
+    //いいねした商品が表示される
         public function test_my_list_like()
     {
         $user = User::factory()->create();
