@@ -94,6 +94,8 @@ networks:
   mailhog_network:
     driver: bridge
 ```
+使用メールアドレス：no-reply@example.com
+
 2. Dockerコンテナの再構築
 ``` bash
 docker-compose down
