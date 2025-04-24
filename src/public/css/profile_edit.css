@@ -39,6 +39,10 @@ a {
     border-radius: 4px;
 }
 
+.profile__edit {
+    padding: 70px;
+}
+
 .profile__edit__inner {
     display: flex;
     justify-content: center;

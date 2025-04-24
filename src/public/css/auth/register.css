@@ -19,6 +19,10 @@
     margin-bottom: 32px;
 }
 
+.register-form__heading {
+    padding-top: 70px;
+}
+
 .register-form__label {
     display: block;
     margin-bottom: 8px;

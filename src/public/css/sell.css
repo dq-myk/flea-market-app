@@ -64,6 +64,10 @@ textarea {
 }
 
 /*商品の出品画面*/
+.sell__heading {
+    padding-top: 70px;
+}
+
 .sell__group {
     width: 45vw;
     margin: 0 auto;

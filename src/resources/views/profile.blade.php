@@ -98,7 +98,7 @@
                         // 出品者か購入者かを判断
                         $isSeller = ($item->transaction->seller_id === auth()->user()->id);
                     @endphp
-                    <a href="{{ $isSeller ? '/chat/seller/' . $item->id : '/chat/buyer/' . $item->id }}">
+                    <a href="{{ $isSeller ? '/chat/seller/' . $item->transaction->id : '/chat/buyer/' . $item->transaction->id }}">
                         <img src="{{ $item->image_path }}" alt="商品画像">
                     </a>
                 @endif

@@ -8,6 +8,7 @@ use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MessageController;
 
 Auth::routes(['verify' => true]);
 
@@ -36,7 +37,9 @@ Route::post('/register', [UserController::class, 'register']);
         Route::post('/sell', [SellController::class, 'store']);
 
         Route::get('/mypage', [MyPageController::class, 'show']);
-        Route::get('/chat/seller/{item}', [MyPageController::class, 'seller']);
+        Route::get('/chat/seller/{transaction}', [MyPageController::class, 'seller']);
         Route::get('/chat/buyer/{item}', [MyPageController::class, 'buyer']);
+
+        Route::post('/chat/send/{transaction}', [MessageController::class, 'send']);
     });
 

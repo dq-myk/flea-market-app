@@ -25,7 +25,7 @@
 
 @section('content')
 <div class="sell__group">
-    <h2>商品の出品</h2>
+    <h2 class = "sell__heading">商品の出品</h2>
 
     <form class = "sell__form" action="/sell" method="post" enctype="multipart/form-data">
         @csrf

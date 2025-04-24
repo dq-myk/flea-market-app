@@ -19,6 +19,10 @@
     margin-bottom: 32px;
 }
 
+.login-form__heading {
+    padding-top: 70px;
+}
+
 .login-form__label {
     display: block;
     margin-bottom: 8px;

@@ -47,7 +47,7 @@ textarea {
 /*商品詳細*/
 .item-details {
     display: flex;
-    padding: 20px;
+    padding: 70px 20px 20px 20px;
     margin: 0 auto;
 }
 
@@ -162,12 +162,6 @@ textarea {
     align-items: center;
     gap: 30px
 }
-
-/* .profile-img__inner {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-} */
 
 .profile-img__item {
     width: 70px;

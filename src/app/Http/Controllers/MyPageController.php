@@ -43,9 +43,10 @@ class MyPageController extends Controller
     }
 
     //出品者用チャット画面表示
-    public function seller(Item $item)
+    public function seller(Transaction $transaction)
     {
-        return view('chat_seller', compact('item'));
+        $transaction->load('buyer'); // 明示的にリレーションをロード
+        return view('chat_seller', compact('transaction'));
     }
 
     //購入者用チャット画面表示
