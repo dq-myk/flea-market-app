@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Notfications\CustomVerifyMail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -72,5 +71,31 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Like::class);
     }
 
+    // 取引(購入）とのリレーション（1対多）
+    public function boughtTransactions() {
+        return $this->hasMany(Transaction::class, 'buyer_id');
+    }
+
+    // 取引(出品）とのリレーション（1対多）
+    public function soldTransactions() {
+        return $this->hasMany(Transaction::class, 'seller_id');
+    }
+
+    // チャットメッセージとのリレーション（1対多）
+    public function messages() {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    // 評価をしたユーザー（購入者）とのリレーション
+    public function reviewsGiven()
+    {
+        return $this->hasMany(UserReview::class, 'reviewer_id');
+    }
+
+    // 評価を受けたユーザー（出品者）とのリレーション
+    public function reviewsReceived()
+    {
+        return $this->hasMany(UserReview::class, 'reviewee_id');
+    }
 
 }

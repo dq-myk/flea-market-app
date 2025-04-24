@@ -43,6 +43,11 @@ class Item extends Model
         return $this->hasMany(Sell::class);
     }
 
+    // 取引とのリレーション（在庫が1つなので1対1）
+    public function transaction() {
+        return $this->hasOne(Transaction::class);
+    }
+
         public function scopeKeywordSearch($query, $keyword)
     {
         if (!empty($keyword)) {

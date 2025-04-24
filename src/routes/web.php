@@ -36,5 +36,7 @@ Route::post('/register', [UserController::class, 'register']);
         Route::post('/sell', [SellController::class, 'store']);
 
         Route::get('/mypage', [MyPageController::class, 'show']);
+        Route::get('/chat/seller/{item}', [MyPageController::class, 'seller']);
+        Route::get('/chat/buyer/{item}', [MyPageController::class, 'buyer']);
     });
 

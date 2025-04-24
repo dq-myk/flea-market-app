@@ -104,6 +104,18 @@ docker-compose down
 docker-compose up -d
 ```
 
+## Stripeについて
+コンビニ支払いとカード支払いのオプションがありますが、決済画面にてコンビニ支払いを選択しますと、支払手順を印刷する画面に遷移します。そのため、カード支払いを成功させた場合に意図する画面遷移が行える想定です。<br>
+
+また、StripeのAPIキーは以下のように設定してください。
+```
+STRIPE_PUBLIC_KEY="パブリックキー"
+STRIPE_SECRET_KEY="シークレットキー"
+```
+
+以下のリンクは公式ドキュメントです。<br>
+https://docs.stripe.com/payments/checkout?locale=ja-JP
+
 ### 5. PHPUnitテスト
 1. テスト用データベース接続の為「.env.example」ファイルを複製後、  
    「.env.testing」へ名前を変更し以下を設定
@@ -151,4 +163,4 @@ php artisan migrate --env=testing
 6. 「php artisan test」にて検証
 
 ### 6. ER 図の作成
-![ER図](./src/flea-market-test_ER.drawio.svg)
+![ER図](./src/pro-test_ER.drawio.svg)

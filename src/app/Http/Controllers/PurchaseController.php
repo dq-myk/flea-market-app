@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Purchase;
 use Stripe\Stripe;
 
+
 class PurchaseController extends Controller
 {
     //購入手続き画面を表示

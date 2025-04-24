@@ -13,7 +13,7 @@
 <body>
     <div class="app">
         <header class="header">
-        <img class="header__logo" src="/storage/images/logo.svg" alt="Website Logo">
+        <a href="/"><img class="header__logo" src="/storage/images/logo.svg" alt="Website Logo"></a>
         @yield('link')
         </header>
         <div class="content">
