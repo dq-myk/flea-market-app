@@ -56,7 +56,7 @@
 
             <div class="profile__edit__group">
                 <label class="profile__edit__label" for="name">ユーザー名</label>
-                <input class="profile__edit__input" type="text" name="name" value="{{ old('name', $user->name) }}">
+                <input class="profile__edit__input" type="text" name="name" value="{{ old('name') ?? $user->name }}">
             </div>
 
             <div class="profile__edit__group">

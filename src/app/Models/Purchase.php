@@ -25,15 +25,21 @@ class Purchase extends Model
         return $this->belongsTo(Item::class);
     }
 
+    // 出品とのリレーション（1対1）
+    public function sell()
+    {
+        return $this->belongsTo(Sell::class);
+    }
+
     // 取引チャットとのリレーション（1対多）
     public function transactionChats()
     {
         return $this->hasMany(TransactionChat::class);
     }
 
-    // 取引評価とのリレーション（1対1）
-    public function UserReview()
+    // 取引とのリレーション（1対多）
+    public function transactions()
     {
-        return $this->hasOne(UserReview::class);
+        return $this->hasMany(Transaction::class);
     }
 }

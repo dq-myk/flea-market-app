@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -27,7 +26,6 @@ class UserController extends Controller
     //プロフィール画面表示
     public function show()
     {
-        $user = Auth::user();
         $user = auth()->user();
         return view('profile_edit', compact('user'));
     }

@@ -41,20 +41,20 @@ a {
     display: flex;
     background-color: #fff;
     padding: 15px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 2px solid #5F5F5F;
     font-weight: bold;
 }
 
 .chat-header p {
     padding: 5px 0 15px 0;
-    font-size: 35px;
+    font-size: 3.5rem;
 }
 
 .product-info {
     display: flex;
     align-items: center;
     padding: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 2px solid #5F5F5F;
 }
 
 .product-img__item {
@@ -77,6 +77,9 @@ a {
 }
 
 .chat-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     flex: 1;
     padding: 20px;
     overflow-y: auto;
@@ -84,13 +87,29 @@ a {
 
 .message {
     display: flex;
-    margin-bottom: 15px;
     align-items: flex-start;
+    margin-bottom: 15px;
 }
 
-.right {
-    justify-content: flex-end;
+.message.left {
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.message.right {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     text-align: right;
+}
+
+.message.right .avatar {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.message.left .avatar {
+    margin-right: 10px;
+    margin-left: 0;
 }
 
 .avatar-img__item {
@@ -119,28 +138,37 @@ a {
     font-size: 2rem;
     text-align: center;
     border-radius: 5px;
-    width: 300px;
+    width: 450px;
+    margin: 0 10px;
+    word-break: break-word;
 }
 
-.actions {
-    font-size: 15px;
-    color: gray;
-    margin-top: 5px;
-    text-align: right;
-}
-
-.actions span {
-    margin-left: 10px;
+.edit-btn,
+.delete-btn {
+    font-size: 1.5rem;
+    color: #5F5F5F;
+    padding: 6px 12px;
+    border: none;
     cursor: pointer;
+    margin-right: 5px;
 }
 
-.chat-footer {
+.chat-form {
     display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+}
+
+.chat-form input[type="text"] {
+    flex: 1;
     padding: 10px;
 }
 
-.chat-footer input {
-    flex: 1;
+.chat-message {
+    width: 40vw;
+    margin-left: 10px;
     padding: 10px;
     margin-right: 10px;
     font-size: 2rem;
@@ -148,17 +176,18 @@ a {
     border-radius: 4px;
 }
 
-.chat-footer input::placeholder {
+.chat-message::placeholder {
     color: #7B7B7B;
 }
 
 .image-btn {
-    margin-right: 10px;
     padding: 10px;
     font-size: 2rem;
     border: 2px solid #FF5555;
     color: #FF5555;
     border-radius: 10px;
+    white-space: nowrap;
+    max-width: 100px;
     cursor: pointer;
 }
 
@@ -175,6 +204,108 @@ a {
 }
 
 .error-message {
+    margin-left: 50px;
     color: #FF9494;
     font-size: 1.6rem;
 }
+
+/* モーダル全体 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 70%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* モーダルの中身 */
+.modal-content {
+    background: #fff3da;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+/* モーダル開閉用チェックボックス */
+.modal-toggle:checked+.modal {
+    display: flex;
+}
+
+/* モーダルの閉じるボタン */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* モーダルのタイトル */
+.modal-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+/* 質問文 */
+.modal-question {
+    font-size: 1.5rem;
+    color: #bebebe;
+    padding-top: 10px;
+}
+
+/* 星評価部分 */
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    /* 星を右から左に並べる */
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* 星の見た目 */
+.stars input[type="radio"] {
+    display: none;
+}
+
+.stars label {
+    font-size: 7rem;
+    color: #D9D9D9;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+/* 星を選択したら色を変える */
+.stars input[type="radio"]:checked~label {
+    color: #ffdc16;
+    /* ゴールド色 */
+}
+
+/* 送信ボタンエリア */
+.submit-area {
+    margin-top: 20px;
+    text-align: right;
+}
+
+/* 送信ボタン */
+.submit-btn {
+    background-color: #FF8282;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #FF9494;
+}
+
+

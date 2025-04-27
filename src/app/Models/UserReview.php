@@ -9,10 +9,14 @@ class UserReview extends Model
 {
     use HasFactory;
 
-    // 購入履歴とのリレーション (多対1)
-    public function purchase()
+    protected $guarded = [
+        'id',
+    ];
+
+    // 取引とのリレーション (多対1)
+    public function transaction()
     {
-        return $this->belongsTo(Purchase::class);
+        return $this->belongsTo(Transaction::class);
     }
 
     // ユーザー（購入者）とのリレーション(多対1)
@@ -25,5 +29,17 @@ class UserReview extends Model
     public function reviewee()
     {
         return $this->belongsTo(User::class, 'reviewee_id');
+    }
+
+    // ユーザーに対して購入者としての評価
+    public function buyerReviews()
+    {
+        return $this->hasMany(UserReview::class, 'reviewed_id')->where('reviewer_id', $this->id);
+    }
+
+    // ユーザーに対して出品者としての評価
+    public function sellerReviews()
+    {
+        return $this->hasMany(UserReview::class, 'reviewed_id')->where('reviewer_id', $this->id);
     }
 }

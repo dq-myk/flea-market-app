@@ -9,6 +9,7 @@ use App\Http\Requests\AddressRequest;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Purchase;
+use App\Models\Transaction;
 use Stripe\Stripe;
 
 
@@ -75,7 +76,20 @@ class PurchaseController extends Controller
         $purchase = new Purchase();
         $purchase->user_id = auth()->id();
         $purchase->item_id = $item->id;
+        $sell = $item->sells()->first();
+        $purchase->sell_id = $sell ? $sell->id : null;
         $purchase->save();
+
+        $transaction = new Transaction();
+        $transaction->item_id = $item->id;
+        $transaction->buyer_id = auth()->id();
+        $transaction->seller_id = $sell->user_id;
+        $transaction->purchase_id = $purchase->id;
+        $transaction->status = 'in_progress';
+        $transaction->save();
+
+        $item->status = 'in_progress';
+        $item->save();
 
         return redirect($session->url);
     }

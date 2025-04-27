@@ -9,6 +9,10 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $guarded = [
+        'id',
+    ];
+
     // 取引情報とのリレーション（多対1）
     public function transaction() {
     return $this->belongsTo(Transaction::class);

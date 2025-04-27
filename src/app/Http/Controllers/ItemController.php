@@ -27,9 +27,14 @@ class ItemController extends Controller
                 $itemsQuery->whereRaw('1 = 0');
             }
         } else {
-            $itemsQuery->whereDoesntHave('sells');
-        }
+            $itemsQuery->whereHas('sells');
 
+            if (auth()->check()) {
+                $itemsQuery->whereDoesntHave('sells', function ($query) {
+                    $query->where('user_id', auth()->id());
+                });
+            }
+        }
         $items = $itemsQuery->get();
 
         return view('index', compact('tab', 'items', 'keyword'));

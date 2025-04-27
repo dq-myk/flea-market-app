@@ -6,8 +6,7 @@
 - Nginx Server : 1.21.1
 - PHP : 7.4.9-fpm
 - MySQL 管理ツール : phpMyadmin
-- 開発用メールサーバ : mailhog
-- テスト用フレームワーク : PHPUnit
+
 
 ## URL
 - 開発環境：http://localhost/
@@ -16,151 +15,127 @@
 ## 環境構築
 
 ### 1. Docker ビルド
-1. [git clone リンク](https://github.com/coachtech-material/laravel-docker-template)
-2. DockerDesktopアプリ起動
-3. docker-compose up -d --build を実行
+1. [git clone リンク](https://github.com/dq-myk/pro-test)
+1. DockerDesktop アプリを起動後に以下を実行
+```docker
+docker-compose up -d --build
+```
+2. 以下のコマンドでメール認証用MailHogコンテナを起動  
+```docker
+docker run -d -p 1025:1025 -p 8025:8025 mailhog/mailhog
+```
+**メール認証用、mailhogアクセス先 : http://localhost:8025/**  
+**※メールが届かない場合は、再送信をお願いします。**
 
-**【 storageへのアクセス設定 】**
-1. src/storage/app/public/images フォルダを作成
-2. nginx/default.conf へ以下を追記
-``` text
-    location /storage/ {
-        alias /var/www/storage/app/public/;
-        try_files $uri $uri/ =404;
-    }
-```
-3. Dockerコンテナの再構築
-``` bash
-docker-compose down
-```
-``` bash
-docker-compose up -d
-```
 
 ### 2. Laravel の設定
-1. docker-compose exec php bash コマンド実行
-2. composer install にてパッケージのインストール
-3. 「.env.example」ファイルを複製後 「.env」へ名前を変更
-4. データベース接続の為.env へ以下を設定
-``` text
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=laravel_db
-DB_USERNAME=laravel_user
-DB_PASSWORD=laravel_pass
+- 以下を実行しPHPコンテナ内にログイン
+```docker
+docker-compose exec php bash
 ```
-5. アプリケーションキーの作成
-``` bash
+1. Laravelのパッケージをインストール  
+```bash
+composer install
+```
+2. 「.env.example」ファイルを複製後 「.env」へ名前を変更  
+```bash
+cp .env.example .env
+```
+3. アプリケーションキーの生成  
+```bash
 php artisan key:generate
 ```
-6. マイグレーション実行
-``` bash
+4. マイグレーション実行
+```bash
 php artisan migrate
 ```
-7. ファクトリを使用し、users テーブルにダミーデータを 10 件作成
-8. シーダーファイルを使用し、  
-   categories テーブルに 14 件、  
-   items テーブルに 10 件のダミーデータを作成
-9. シーディングの実行
-``` bash
+
+- ファクトリへの設定内容  
+    users テーブルにダミーデータを 10 件、  
+    （ダミー用のパスワードは全てpasswordを設定）  
+    items テーブルにダミーデータを 10 件作成
+
+- シーダーファイルへの設定内容  
+   取引時に使用するユーザーのテストアカウントをusers テーブルへ個別で 3 件、  
+   出品商品をitemsテーブルへ 10 件作成  
+
+### テストアカウント
+      name: ユーザー1(商品ID：C001～C005の出品者)  
+      email: test1@example.com  
+      password: password  
+      --------------------------------------------
+      name: ユーザー2(商品ID：C006～C010の出品者)  
+      email: test2@example.com  
+      password: password  
+      --------------------------------------------
+      name: ユーザー3(購入者)  
+      email: test3@example.com  
+      password: password  
+      --------------------------------------------
+
+5. シーディングの実行
+```bash
 php artisan db:seed
 ```
 
-### 3. HTML・CSS にて各ページの作成
-- 商品一覧画面【トップ画面】(/)
-- 会員登録画面(/register)
-- ログイン画面(/login)
-- 商品詳細画面(/item/:item_id)
-- 商品購入画面(purchase/:item_id)
-- 送付先住所変更画面(purchase/address/:item_id)
-- 商品出品画面(/sell)
-- プロフィール画面(/mypage)
-- プロフィール編集画面【設定画面】(/mypage/profile)
-
-### 4. mailhogでのメール受信テスト
-1. mailhogコンテナ作成の為、docker-compose.yml へ以下を追記
-``` text
-  mailhog:
-    image: mailhog/mailhog
-    container_name: mailhog
-    ports:
-      - "1025:1025"  # SMTP port
-      - "8025:8025"  # Web UI port
-    networks:
-      - mailhog_network
-
-networks:
-  mailhog_network:
-    driver: bridge
+**※ログイン時にLaravelログ権限エラーが出た場合は以下の実行をお願いいたします。**  
+- 以下を実行しPHPコンテナ内にログイン
+```docker
+docker-compose exec php bash
 ```
-使用メールアドレス：no-reply@example.com
-
-2. Dockerコンテナの再構築
-``` bash
-docker-compose down
+```bash
+cd ../
 ```
-``` bash
-docker-compose up -d
+```bash
+chmod -R 777 www/.*
+```
+```bash
+cd www
 ```
 
 ## Stripeについて
 コンビニ支払いとカード支払いのオプションがありますが、決済画面にてコンビニ支払いを選択しますと、支払手順を印刷する画面に遷移します。そのため、カード支払いを成功させた場合に意図する画面遷移が行える想定です。<br>
 
-また、StripeのAPIキーは以下のように設定してください。
+また、StripeのAPIキーは.envファイル内へ以下のように設定してください。
 ```
 STRIPE_PUBLIC_KEY="パブリックキー"
 STRIPE_SECRET_KEY="シークレットキー"
 ```
 
-以下のリンクは公式ドキュメントです。<br>
+以下のStripe公式サイトにてアカウント作成をお願いします。<br>
 https://docs.stripe.com/payments/checkout?locale=ja-JP
 
-### 5. PHPUnitテスト
-1. テスト用データベース接続の為「.env.example」ファイルを複製後、  
-   「.env.testing」へ名前を変更し以下を設定
-``` text
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=laravel_test_db
-DB_USERNAME=laravel_test_user
-DB_PASSWORD=laravel_test_pass
+
+### 3. PHPUnitテスト
+- 以下を実行しPHPコンテナ内にログイン
+```docker
+docker-compose exec php bash
 ```
-2. phpunit.xmlへ以下を設定
-``` text
-<server name="DB_CONNECTION" value="mysql"/>
-<server name="DB_HOST" value="mysql"/>
-<server name="DB_PORT" value="3306"/>
-<server name="DB_DATABASE" value="laravel_test_db"/>
-<server name="DB_USERNAME" value="laravel_test_user"/>
-<server name="DB_PASSWORD" value="laravel_test_pass"/>
-```
-3. テスト用アプリケーションキーの作成
-``` bash
-php artisan key:generate --env=testing
-```
-4. テスト用マイグレーション実行
+1. テスト用マイグレーション実行
 ``` bash
 php artisan migrate --env=testing
 ```
-5. 各テストファイル作成(15件)
-- 会員登録機能 (RegisterTest.php)
-- ログイン機能 (LoginTest.php)
-- ログアウト機能 (LogoutTest.php)
-- 商品一覧取得 (ItemListTest.php)
-- マイリスト一覧取得 (MyListTest.php)
-- 商品検索機能 (ItemSearchTest.php)
-- 商品詳細情報取得 (ItemDetailTest.php)
-- いいね機能 (LikeTest.php)
-- コメント送信機能 (CommentTest.php)
-- 商品購入機能 (ItemPurchaseTest.php)
-- 支払方法選択機能 (PaymentMethodTest.php)
-- 配送先変更機能 (AddressChangeTest.php)
-- ユーザー情報取得 (ProfileViewTest.php)
-- ユーザー情報取得 (ProfileChangeTest.php)
-- 出品商品情報登録 (ExhibitRegistrationTest.php)
-6. 「php artisan test」にて検証
+2. テスト実行
+``` bash
+php artisan test
+```
 
-### 6. ER 図の作成
+**※本番環境と同一のデータベースを使用してテスト用テーブルを作成する為、**  
+　**テスト用マイグレーションを実行すると、本番環境のデータが全て消えてしまいます。**  
+　**テストケース検証後に本番環境の再確認が必要な場合は、お手数ですが再度以下の実行を**  
+　**お願いいたします。**
+- 以下を実行しPHPコンテナ内にログイン
+```docker
+docker-compose exec php bash
+```
+- マイグレーション実行
+```bash
+php artisan migrate
+```
+- シーディングの実行
+```bash
+php artisan db:seed
+```
+
+### 4. ER 図の作成
 ![ER図](./src/pro-test_ER.drawio.svg)

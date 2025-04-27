@@ -21,9 +21,6 @@ class SellsTableSeeder extends Seeder
         $user2 = User::find(12);
         $user3 = User::find(13);
 
-        $sellsUser1 = [];
-        $sellsUser2 = [];
-
         $categoryIdsUser1 = [
             [1, 5],
             [2, 8],
@@ -175,41 +172,19 @@ class SellsTableSeeder extends Seeder
                 'user_id' => $user1->id,
                 'price' => $item->price,
             ]);
-
-            $sellsUser1[] = $sell;
         }
 
         for ($i = 0; $i < 5; $i++) {
-        $item = Item::create(array_merge($itemsUser2[$i], [
-            'image_path' => $imagePathsUser2[$i]
-        ]));
+            $item = Item::create(array_merge($itemsUser2[$i], [
+                'image_path' => $imagePathsUser2[$i]
+            ]));
 
-        $item->categories()->sync($categoryIdsUser2[$i]);
+            $item->categories()->sync($categoryIdsUser2[$i]);
 
-        $sell = Sell::create([
-            'item_id' => $item->id,
-            'user_id' => $user2->id,
-            'price' => $item->price,
-        ]);
-
-                $sellsUser2[] = $sell;
-        }
-
-        foreach (collect($sellsUser1)->random(3) as $sell) {
-            Transaction::create([
-                'item_id' => $sell->item_id,
-                'seller_id' => $sell->user_id,
-                'buyer_id' => $user3->id,
-                'status' => 'in_progress',
-            ]);
-        }
-
-        foreach (collect($sellsUser2)->random(3) as $sell) {
-            Transaction::create([
-                'item_id' => $sell->item_id,
-                'seller_id' => $sell->user_id,
-                'buyer_id' => $user3->id,
-                'status' => 'in_progress',
+            $sell = Sell::create([
+                'item_id' => $item->id,
+                'user_id' => $user2->id,
+                'price' => $item->price,
             ]);
         }
     }

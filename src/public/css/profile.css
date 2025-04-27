@@ -69,6 +69,7 @@ a {
 .user-info {
     flex-grow: 1;
     margin-left: 20px;
+    text-align: center;
 }
 
 .user-name {
@@ -125,18 +126,14 @@ a {
     color: #FF0000;
 }
 
-.count-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 25px;
-    height: 25px;
+.tab-badge {
     margin-left: 5px;
-    background-color: #ff0000;
+    background: #FF0000;
     color: #fff;
     border-radius: 50%;
-    font-size: 2rem;
-    font-weight: bold;
+    padding: 2px 8px;
+    font-size: 2.5rem;
+    display: inline-block;
 }
 
 .item-content {
@@ -145,6 +142,11 @@ a {
     align-items: center;
     width: calc(25% - 20px);
     box-sizing: border-box;
+}
+
+.item-img {
+    position: relative;
+    display: inline-block;
 }
 
 .item-img img {
@@ -157,6 +159,42 @@ a {
     font-size: 2.5rem;
     text-align: left;
     align-self: flex-start;
+}
+
+.image-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    padding: 0;
+    z-index: 10;
+}
+
+/* 星の基本スタイル */
+.star {
+    font-size: 35px;
+    color: #D9D9D9;
+    /* デフォルトは灰色 */
+}
+
+/* 評価された星の色を変更 */
+.star.filled {
+    color: #ffdc16;
+    /* 評価された星は黄色 */
+}
+
+/* 空の星の色を灰色に設定（デフォルトなので指定しなくてもよいが、明示的に設定する） */
+.star.empty {
+    color: #D9D9D9;
+    /* 空の星は灰色 */
 }
 
 @media screen and (max-width: 850px) {

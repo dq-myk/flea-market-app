@@ -96,8 +96,6 @@
                         @else
                             <div class="profile-img__item profile-img__item--no-image"></div>
                         @endif
-
-
                     <strong>{{ $comment->user->name }}</strong>
                     </div>
                     <p>{{ $comment->content }}</p>

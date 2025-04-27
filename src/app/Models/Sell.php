@@ -24,4 +24,10 @@ class Sell extends Model
     {
         return $this->belongsTo(Item::class);
     }
+
+    // 購入履歴とのリレーション（1対1）
+    public function purchase()
+    {
+        return $this->hasOne(Purchase::class);
+    }
 }
