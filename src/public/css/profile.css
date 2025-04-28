@@ -178,23 +178,17 @@ a {
     z-index: 10;
 }
 
-/* 星の基本スタイル */
 .star {
     font-size: 35px;
     color: #D9D9D9;
-    /* デフォルトは灰色 */
 }
 
-/* 評価された星の色を変更 */
 .star.filled {
     color: #ffdc16;
-    /* 評価された星は黄色 */
 }
 
-/* 空の星の色を灰色に設定（デフォルトなので指定しなくてもよいが、明示的に設定する） */
 .star.empty {
     color: #D9D9D9;
-    /* 空の星は灰色 */
 }
 
 @media screen and (max-width: 850px) {

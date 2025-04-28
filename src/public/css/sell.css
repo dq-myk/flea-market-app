@@ -63,7 +63,6 @@ textarea {
     border-radius: 4px;
 }
 
-/*商品の出品画面*/
 .sell__heading {
     padding-top: 70px;
 }
@@ -180,7 +179,6 @@ select {
     content: "▼";
     position: absolute;
     right: 10px;
-    /* 矢印の位置を調整 */
     top: 50%;
     transform: translateY(-50%);
     font-size: 2rem;
@@ -199,13 +197,11 @@ select {
     gap: 30px
 }
 
-/* ラジオボタンが選択されたときの色を変更 */
 input[type="radio"]:checked {
     background-color: #5F5F5F;
     border-color: #5F5F5F;
 }
 
-/* ラジオボタンの外観をカスタマイズ */
 input[type="radio"] {
     appearance: none;
     width: 20px;

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 use App\Http\Requests\RegisterRequest;
-use Illuminate\Support\Facades\Redirect;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -32,14 +31,10 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.register');
         });
 
-        //メール認証機能を有効化
         Fortify::verifyEmailView(function () {
             return view('auth.verify-email');
         });
 
-        Fortify::authenticateUsing(function ($request) {
-            $user = User::where('email', $request->email)->first();
-        });
 
         Fortify::loginView(function () {
             return view('auth.login');
@@ -52,7 +47,6 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(FortifyRegisterRequest::class, RegisterRequest::class);
-
 
 
     }

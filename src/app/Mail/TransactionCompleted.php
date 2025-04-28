@@ -32,7 +32,7 @@ class TransactionCompleted extends Mailable
         return $this->subject('取引が完了しました')
                 ->view('emails.transaction_completed')
                 ->with([
-                    'transaction' => $this->transaction,  // ここで transaction をビューに渡す
+                    'transaction' => $this->transaction,
                 ]);
     }
 }

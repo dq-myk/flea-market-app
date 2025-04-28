@@ -89,9 +89,8 @@
             <h3>コメント ({{ $item->comments->count() }})</h3>
             @foreach($item->comments as $comment)
                 <div class="comment-view">
-                    <!-- 既存の画像があれば表示 -->
                     <div class="profile-img">
-                        @if ($comment->user && $comment->user->image_path && file_exists(public_path($comment->user->image_path)))
+                        @if ($comment->user && $comment->user->image_path)
                             <img class="profile-img__item" src="{{ asset($comment->user->image_path) }}" alt="プロフィール画像">
                         @else
                             <div class="profile-img__item profile-img__item--no-image"></div>

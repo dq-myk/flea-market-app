@@ -36,17 +36,15 @@
                 <strong class="user-name">{{ $user->name }}</strong>
                 <div class="user-rating">
                     @php
-                        // 出品者か購入者かを判断
-                        $isSeller = $user->is_seller; // 出品者かどうかを判定するフラグ
-                        // 出品者は購入者からの評価平均、購入者は出品者からの評価平均を取得
+                        $isSeller = $user->is_seller;
                         $rating = $isSeller
-                            ? round(\App\Models\UserReview::where('reviewee_id', $user->id)->avg('rating')) // 購入者からの評価
-                            : round(\App\Models\UserReview::where('reviewer_id', $user->id)->avg('rating')); // 出品者からの評価
+                            ? round(\App\Models\UserReview::where('reviewee_id', $user->id)->avg('rating'))
+                            : round(\App\Models\UserReview::where('reviewer_id', $user->id)->avg('rating'));
                     @endphp
 
-                    @if ($rating > 0) <!-- 評価がある場合のみ表示 -->
+                    @if ($rating > 0)
                         @for ($i = 1; $i <= 5; $i++)
-                            <span class="star {{ $i <= $rating ? 'filled' : 'empty' }}">★</span> <!-- 評価に応じてクラスを切り替え -->
+                            <span class="star {{ $i <= $rating ? 'filled' : 'empty' }}">★</span>
                         @endfor
                     @endif
                 </div>
@@ -107,7 +105,6 @@
             <div class="item-img">
                 @if ($item->image_path)
                     @php
-                        // 出品者か購入者かを判断
                         $isSeller = ($item->transaction->seller_id === auth()->user()->id);
                     @endphp
                     <a href="{{ $isSeller ? '/chat/seller/' . $item->transaction->id : '/chat/buyer/' . $item->transaction->id }}">

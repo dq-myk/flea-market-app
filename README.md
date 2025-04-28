@@ -1,4 +1,7 @@
-# フリマアプリ
+# Pro入会テスト
+```
+商品購入～評価までの取引処理機能追加
+```
 
 ## 実行環境
 - Laravel Framework : 8.83.8
@@ -49,14 +52,13 @@ php artisan key:generate
 ```bash
 php artisan migrate
 ```
-
-- ファクトリへの設定内容  
-    users テーブルにダミーデータを 10 件、  
-    （ダミー用のパスワードは全てpasswordを設定）  
-    items テーブルにダミーデータを 10 件作成
+5. シーディングの実行
+```bash
+php artisan db:seed
+```
 
 - シーダーファイルへの設定内容  
-   取引時に使用するユーザーのテストアカウントをusers テーブルへ個別で 3 件、  
+   取引時に使用するユーザーのテストアカウントをusers テーブルへ 3 件、  
    出品商品をitemsテーブルへ 10 件作成  
 
 ### テストアカウント
@@ -73,12 +75,8 @@ php artisan migrate
       password: password  
       --------------------------------------------
 
-5. シーディングの実行
-```bash
-php artisan db:seed
-```
 
-**※ログイン時にLaravelログ権限エラーが出た場合は以下の実行をお願いいたします。**  
+**※ログイン時にLaravelログ権限エラーが出たり、ファイル書込みエラーが発生した場合は以下の実行をお願いいたします。**  
 - 以下を実行しPHPコンテナ内にログイン
 ```docker
 docker-compose exec php bash
@@ -105,36 +103,20 @@ STRIPE_SECRET_KEY="シークレットキー"
 以下のStripe公式サイトにてアカウント作成をお願いします。<br>
 https://docs.stripe.com/payments/checkout?locale=ja-JP
 
+```
+決済時の入力情報は以下の通りです。
 
-### 3. PHPUnitテスト
-- 以下を実行しPHPコンテナ内にログイン
-```docker
-docker-compose exec php bash
-```
-1. テスト用マイグレーション実行
-``` bash
-php artisan migrate --env=testing
-```
-2. テスト実行
-``` bash
-php artisan test
+メールアドレス：test3@example.com
+
+テスト用カード情報：カード番号「4242 4242 4242 4242」
+期限(MM/YY)とセキュリティコード(3桁数字)は任意でお願いします。
+
+カード保有者名：USER3
 ```
 
-**※本番環境と同一のデータベースを使用してテスト用テーブルを作成する為、**  
-　**テスト用マイグレーションを実行すると、本番環境のデータが全て消えてしまいます。**  
-　**テストケース検証後に本番環境の再確認が必要な場合は、お手数ですが再度以下の実行を**  
-　**お願いいたします。**
-- 以下を実行しPHPコンテナ内にログイン
-```docker
-docker-compose exec php bash
+## プロフィール用画像サンプル
 ```
-- マイグレーション実行
-```bash
-php artisan migrate
-```
-- シーディングの実行
-```bash
-php artisan db:seed
+いちご.jpg、お城.jpg、ポニー.jpg
 ```
 
 ### 4. ER 図の作成

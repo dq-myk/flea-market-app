@@ -5,18 +5,16 @@
 @endsection
 
 @section('content')
-<div class="chat_seller">
+<div class="chat_buyer">
         <aside class="sidebar">
             <p>その他の取引</p>
-            @isset($transactions)
-                @foreach($transactions as $transaction)
-                    <form method="GET" action="{{ '/chat/buyer/' . $transaction->id }}">
-                        <button class="item-btn">
-                            {{ $transaction->item->name }}
-                        </button>
-                    </form>
-                @endforeach
-            @endisset
+            @foreach ($tradingItems as $item)
+            <a href="/chat/buyer/{{ $item->id }}">
+                <button class="item-btn">
+                    {{ $item->item->name }}
+                </button>
+            </a>
+        @endforeach
         </aside>
 
     <div class="main-content">
@@ -35,11 +33,9 @@
                     @endif
                 </div>
 
-                <!-- モーダル開閉用のチェックボックス -->
                 <input type="checkbox" id="modal-toggle" class="modal-toggle" hidden>
                 <label for="modal-toggle" class="complete-btn">取引を完了する</label>
 
-                <!-- モーダル本体 -->
                 <div class="modal" id="completeModal">
                     <div class="modal-content">
                         <h2 class="modal-title">取引が完了しました。</h2>

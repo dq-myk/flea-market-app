@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
-use App\Models\User;
 use App\Models\Transaction;
-use App\Models\Sell;
-use App\Models\UserReview;
 
 class MyPageController extends Controller
 {
@@ -32,11 +29,9 @@ class MyPageController extends Controller
                 $transaction = $item->transaction;
                 $isSeller = $transaction->seller_id === $user->id;
 
-                // 出品者は購入者からの未読メッセージ数を取得
                 if ($isSeller) {
                     $item->unread_messages_count = $transaction->buyerMessages()->where('sender_id', '!=', $user->id)->where('read', false)->count();
                 }
-                // 購入者は出品者からの未読メッセージ数を取得
                 else {
                     $item->unread_messages_count = $transaction->sellerMessages()->where('sender_id', '!=', $user->id)->where('read', false)->count();
                 }
@@ -75,63 +70,5 @@ class MyPageController extends Controller
         }
 
         return view('profile', compact('user', 'tab', 'items', 'sellTrades', 'buyTrades', 'totalUnread'));
-    }
-
-    //出品者用チャット画面表示
-    public function seller(Request $request, Transaction $transaction)
-    {
-        $user = auth()->user();
-
-        $transaction->load('buyer', 'item');
-
-        if ($transaction->seller_id === $user->id) {
-            $transaction->buyerMessages()
-                ->where('sender_id', '!=', $user->id)
-                ->where('read', false)
-                ->update(['read' => true]);
-        }
-
-        $sellerId = $transaction->seller_id;
-
-        $tradingItems = Transaction::where('seller_id', $sellerId)
-            ->where('id', '!=', $transaction->id)
-            ->with(['item', 'messages' => function ($query)  use ($transaction) {
-                $query->where('sender_id', $transaction->buyer_id)
-                    ->latest('created_at');
-            }])
-            ->get()
-            ->sortByDesc(function ($item) {
-                return optional($item->messages->first())->created_at;
-            });
-
-        $alreadyReviewed = UserReview::where('transaction_id', $transaction->id)
-            ->where('reviewer_id', $transaction->buyer_id)
-            ->exists();
-
-        $openModal = $alreadyReviewed;
-
-        if ($request->has('message')) {
-            session(['chat_message' => $request->input('message')]);
-        }
-        $chatMessage = session('chat_message', '');
-
-        return view('chat_seller', compact('transaction', 'tradingItems', 'openModal', 'chatMessage'));
-    }
-
-    //購入者用チャット画面表示
-    public function buyer(Transaction $transaction)
-    {
-        $user = auth()->user();
-
-        $transaction->load('seller', 'item');
-
-        if ($transaction->buyer_id === $user->id) {
-            $transaction->sellerMessages()
-                ->where('sender_id', '!=', $user->id)
-                ->where('read', false)
-                ->update(['read' => true]);
-        }
-
-        return view('chat_buyer', compact('transaction'));
     }
 }

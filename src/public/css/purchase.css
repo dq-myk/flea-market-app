@@ -15,7 +15,6 @@ select {
     cursor: pointer;
 }
 
-/* 開いたときのオプションリストのスタイル */
 select option {
     position: relative;
     padding-left: 50px;
@@ -23,7 +22,6 @@ select option {
     color: #fff;
 }
 
-/* 選択中のオプションのスタイル */
 select option:checked {
     background-color: #5599EB;
     color: white;
@@ -143,7 +141,6 @@ select option:checked {
 
 tr:not(:last-child) td {
     border-bottom: 1px solid black;
-    /* 各行の下に線を引く */
 }
 
 .purchase-button {

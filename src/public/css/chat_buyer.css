@@ -2,7 +2,7 @@ a {
     text-decoration: none;
 }
 
-.chat_seller {
+.chat_buyer {
     display: flex;
     max-width: 100vw;
 }
@@ -227,7 +227,7 @@ a {
     font-size: 1.6rem;
 }
 
-/* モーダル全体 */
+/* モーダル画面 */
 .modal {
     display: none;
     position: fixed;
@@ -240,7 +240,6 @@ a {
     align-items: center;
 }
 
-/* モーダルの中身 */
 .modal-content {
     background: #fff3da;
     padding: 20px;
@@ -250,12 +249,10 @@ a {
     position: relative;
 }
 
-/* モーダル開閉用チェックボックス */
 .modal-toggle:checked+label+.modal {
     display: flex;
 }
 
-/* モーダルの閉じるボタン */
 .close {
     position: absolute;
     top: 15px;
@@ -264,29 +261,24 @@ a {
     cursor: pointer;
 }
 
-/* モーダルのタイトル */
 .modal-title {
     font-size: 2.5rem;
     margin-bottom: 15px;
 }
 
-/* 質問文 */
 .modal-question {
     font-size: 1.5rem;
     color: #bebebe;
     padding-top: 10px;
 }
 
-/* 星評価部分 */
 .stars {
     display: flex;
     flex-direction: row-reverse;
-    /* 星を右から左に並べる */
     justify-content: center;
     margin: 20px 0;
 }
 
-/* 星の見た目 */
 .stars input[type="radio"] {
     display: none;
 }
@@ -298,19 +290,15 @@ a {
     transition: color 0.2s;
 }
 
-/* 星を選択したら色を変える */
 .stars input[type="radio"]:checked~label {
     color: #ffdc16;
-    /* ゴールド色 */
 }
 
-/* 送信ボタンエリア */
 .submit-area {
     margin-top: 20px;
     text-align: right;
 }
 
-/* 送信ボタン */
 .submit-btn {
     background-color: #FF8282;
     color: #fff;

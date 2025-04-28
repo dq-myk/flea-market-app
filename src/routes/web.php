@@ -56,13 +56,14 @@ Route::post('/register', [UserController::class, 'register']);
         Route::post('/sell', [SellController::class, 'store']);
 
         Route::get('/mypage', [MyPageController::class, 'show']);
-        Route::get('/chat/seller/{transaction}', [MyPageController::class, 'seller']);
-        Route::get('/chat/buyer/{transaction}', [MyPageController::class, 'buyer']);
 
+        Route::get('/chat/seller/{transaction}', [MessageController::class, 'seller']);
+        Route::get('/chat/buyer/{transaction}', [MessageController::class, 'buyer']);
         Route::post('/chat/send/{transaction}', [MessageController::class, 'send']);
         Route::get('/chat/{transactionId}', [MessageController::class, 'showChat']);
         Route::post('/chat/action', [MessageController::class, 'action']);
         Route::post('/chat/update/{id}', [MessageController::class, 'update']);
+
 
         Route::post('/transaction/complete/{transaction}', [TransactionController::class, 'complete']);
 

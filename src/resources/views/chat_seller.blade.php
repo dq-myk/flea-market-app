@@ -59,7 +59,7 @@
                             <form action="{{ '/chat/update/' . $message->id }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="edit_id" value="{{ $message->id }}">
-                                <input type="text" name="message" placeholder="取引メッセージを記入してください">
+                                <input type="text" name="message" value="{{ old('message', $message->message) }}">
                                 <button type="submit" style="display: none;"></button> {{-- Enterキー用 --}}
                             </form>
                         @else
@@ -88,10 +88,8 @@
             @endforeach
         </div>
 
-        <!-- モーダル開閉用のチェックボックス -->
         <input type="checkbox" id="modal-toggle" class="modal-toggle" hidden {{ $openModal ? 'checked' : '' }}>
 
-        <!-- モーダル本体 -->
             <div class="modal" id="completeModal">
                 <div class="modal-content">
                     <h2 class="modal-title">取引が完了しました。</h2>
@@ -137,7 +135,7 @@
             <form class="chat-form" action="{{ '/chat/send/' . $transaction->id }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div>
-                    <input class="chat-message" type="text" name="message" placeholder="取引メッセージを記入してください" value="{{ old('message', session('chat_message', $chatMessage)) }}">
+                    <input class="chat-message" type="text" name="message" placeholder="取引メッセージを記入してください">
                 </div>
                 <div>
                     <input class="chat-image" type="file" name="image" accept="image/*" style="display:none;" id="imageInput">

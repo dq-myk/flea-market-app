@@ -29,7 +29,6 @@
             </p>
         </div>
 
-        <!-- ログインエラーのカスタムメッセージ表示 -->
             @if ($errors->has('login_error'))
                 <p class="login-form__error-message">
                     {{ $errors->first('login_error') }}

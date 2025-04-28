@@ -26,7 +26,6 @@
     }
 
 
-    /* ヘッダー */
     .header {
         display: flex;
         align-items: center;
@@ -39,7 +38,6 @@
         margin: 25px;
     }
 
-    /* コンテンツ */
     .content {
         display: flex;
         flex-direction: column;
@@ -53,7 +51,6 @@
         font-size: 3.5rem;
     }
 
-    /* ボタン */
     .btn {
         display: block;
         width: 680px;
