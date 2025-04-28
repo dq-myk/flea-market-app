@@ -45,7 +45,7 @@ class MessageController extends Controller
 
         $openModal = $alreadyReviewed;
 
-        return view('chat_seller', compact('transaction', 'tradingItems', 'openModal', 'chatMessage'));
+        return view('chat_seller', compact('transaction', 'tradingItems', 'openModal'));
     }
 
     //購入者用チャット画面表示
@@ -144,5 +144,4 @@ class MessageController extends Controller
 
         return back();
     }
-
 }
