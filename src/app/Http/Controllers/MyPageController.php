@@ -30,10 +30,14 @@ class MyPageController extends Controller
                 $isSeller = $transaction->seller_id === $user->id;
 
                 if ($isSeller) {
-                    $item->unread_messages_count = $transaction->buyerMessages()->where('sender_id', '!=', $user->id)->where('read', false)->count();
+                    $item->unread_messages_count = $transaction->buyerMessages()
+                    ->where('sender_id', '!=', $user->id)
+                    ->where('read', false)->count();
                 }
                 else {
-                    $item->unread_messages_count = $transaction->sellerMessages()->where('sender_id', '!=', $user->id)->where('read', false)->count();
+                    $item->unread_messages_count = $transaction->sellerMessages()
+                    ->where('sender_id', '!=', $user->id)
+                    ->where('read', false)->count();
                 }
             }
 
@@ -46,27 +50,38 @@ class MyPageController extends Controller
         } elseif ($tab === 'trade') {
             $sellTrades = Transaction::where('seller_id', $user->id)
                 ->whereIn('status', ['in_progress'])
-                ->with('item')
-                ->get()
-                ->pluck('item');
+                ->with(['item', 'messages'])
+                ->get();
 
             $buyTrades = Transaction::where('buyer_id', $user->id)
                 ->whereIn('status', ['in_progress'])
-                ->with('item')
-                ->get()
-                ->pluck('item');
+                ->with(['item', 'messages'])
+                ->get();
 
-            $items = $sellTrades->merge($buyTrades);
+            $items = collect();
+
+            foreach ($sellTrades->merge($buyTrades) as $transaction) {
+                $item = $transaction->item;
+                $item->transaction = $transaction;
+
+                $lastMessage = $transaction->messages->sortByDesc('created_at')->first();
+                $item->last_message_at = $lastMessage ? $lastMessage->created_at : null;
+
+                $items->push($item);
             }
 
-        $unreadItemsById = $unreadItems->keyBy('id');
-
-        foreach ($items as $item) {
-            if (isset($unreadItemsById[$item->id])) {
-                $item->unread_messages_count = $unreadItemsById[$item->id]->unread_messages_count;
-            } else {
-                $item->unread_messages_count = 0;
+            $unreadItemsById = $unreadItems->keyBy('id');
+            foreach ($items as $item) {
+                if (isset($unreadItemsById[$item->id])) {
+                    $item->unread_messages_count = $unreadItemsById[$item->id]->unread_messages_count;
+                } else {
+                    $item->unread_messages_count = 0;
+                }
             }
+
+            $items = $items->sortByDesc(function ($item) {
+                return $item->last_message_at;
+            })->values();
         }
 
         return view('profile', compact('user', 'tab', 'items', 'sellTrades', 'buyTrades', 'totalUnread'));

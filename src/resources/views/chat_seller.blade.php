@@ -45,8 +45,8 @@
             @foreach($transaction->messages as $message)
                 <div class="message {{ $message->sender_id === auth()->id() ? 'right' : 'left' }}">
                     <div class="avatar">
-                        @if ($message->sender && $message->sender->image_path)
-                            <img class="avatar-img__item" src="{{ asset($message->sender->image_path) }}" alt="プロフィール画像">
+                    @if ($message->image_path)
+                            <img class="avatar-img__item" src="{{ asset($message->image_path) }}" alt="プロフィール画像">
                         @else
                             <div class="avatar-img__item avatar-img__item--no-image"></div>
                         @endif
@@ -66,11 +66,6 @@
                             {{-- 通常表示 --}}
                             @if($message->message)
                                 <div class="bubble">{{ $message->message }}</div>
-                            @endif
-                            @if($message->image_path)
-                                <div class="bubble">
-                                    <img src="{{ asset('storage/' . $message->image_path) }}" alt="送信画像" style="max-width: 200px;">
-                                </div>
                             @endif
 
                             {{-- 編集・削除ボタン --}}
@@ -135,7 +130,7 @@
             <form class="chat-form" action="{{ '/chat/send/' . $transaction->id }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div>
-                    <input class="chat-message" type="text" name="message" placeholder="取引メッセージを記入してください">
+                    <input id="chatMessageInput" class="chat-message" type="text" name="message" placeholder="取引メッセージを記入してください">
                 </div>
                 <div>
                     <input class="chat-image" type="file" name="image" accept="image/*" style="display:none;" id="imageInput">
@@ -150,4 +145,28 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('chatMessageInput');
+        if (!input) return;
+        const transactionId = '{{ $transaction->id }}';
+        const storageKey = 'chatMessage_' + transactionId;
+
+        input.addEventListener('input', () => {
+            localStorage.setItem(storageKey, input.value);
+        });
+
+        const savedMessage = localStorage.getItem(storageKey);
+        if (savedMessage) {
+            input.value = savedMessage;
+        }
+
+        document.querySelector('.chat-form').addEventListener('submit', () => {
+            localStorage.removeItem(storageKey);
+        });
+    });
+</script>
 @endsection

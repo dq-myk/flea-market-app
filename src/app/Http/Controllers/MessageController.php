@@ -77,10 +77,10 @@ class MessageController extends Controller
         });
 
         $alreadyReviewed = UserReview::where('transaction_id', $transaction->id)
-            ->where('reviewee_id', $transaction->buyer_id)
+            ->where('reviewee_id', $transaction->seller_id)
             ->exists();
 
-        return view('chat_buyer', compact('transaction', 'tradingItems'));
+        return view('chat_buyer', compact('transaction', 'tradingItems', 'alreadyReviewed'));
     }
 
     // チャットメッセージとプロフィール画像の送信
@@ -88,20 +88,19 @@ class MessageController extends Controller
     {
         $transaction = Transaction::with(['messages.sender'])->findOrFail($transactionId);
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $storedPath = $image->store('public/images');
+            $imagePath = str_replace('public/', 'storage/', $storedPath);
+        }
+
         if ($request->filled('message')) {
             Message::create([
                 'transaction_id' => $transactionId,
                 'sender_id' => Auth::id(),
                 'message' => $request->message,
+                'image_path' => $imagePath,
             ]);
-        }
-
-        if ($request->hasFile('image')) {
-            $user = Auth::user();
-            $image = $request->file('image');
-            $imagePath = $image->store('public/images');
-            $user->image_path = str_replace('public/', 'storage/', $imagePath);
-            $user->save();
         }
 
         return redirect()->back();
