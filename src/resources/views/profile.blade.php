@@ -36,16 +36,26 @@
                 <strong class="user-name">{{ $user->name }}</strong>
                 <div class="user-rating">
                     @php
-                        $isSeller = $user->is_seller;
-                        $rating = $isSeller
-                            ? round(\App\Models\UserReview::where('reviewee_id', $user->id)->avg('rating'))
-                            : round(\App\Models\UserReview::where('reviewer_id', $user->id)->avg('rating'));
+                        $sellerRating = \App\Models\UserReview::toSeller($user->id)->avg('rating');
                     @endphp
+                    @if ($sellerRating)
+                        <div class="user-rating">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <span class="star {{ $i <= round($sellerRating) ? 'filled' : 'empty' }}">★</span>
+                            @endfor
+                        </div>
+                    @endif
 
-                    @if ($rating > 0)
-                        @for ($i = 1; $i <= 5; $i++)
-                            <span class="star {{ $i <= $rating ? 'filled' : 'empty' }}">★</span>
-                        @endfor
+                    {{-- 購入者としての評価 --}}
+                    @php
+                        $buyerRating = \App\Models\UserReview::toBuyer($user->id)->avg('rating');
+                    @endphp
+                    @if ($buyerRating)
+                        <div class="user-rating">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <span class="star {{ $i <= round($buyerRating) ? 'filled' : 'empty' }}">★</span>
+                            @endfor
+                        </div>
                     @endif
                 </div>
             </div>

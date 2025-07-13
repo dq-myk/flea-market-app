@@ -31,15 +31,21 @@ class UserReview extends Model
         return $this->belongsTo(User::class, 'reviewee_id');
     }
 
-    // ユーザーに対して購入者としての評価
-    public function buyerReviews()
+    // 出品者として評価されたレビュー
+    public function scopeToSeller($query, $userId)
     {
-        return $this->hasMany(UserReview::class, 'reviewed_id')->where('reviewer_id', $this->id);
+        return $query->where('reviewee_id', $userId)
+                    ->whereHas('transaction', function ($q) {
+                        $q->whereColumn('seller_id', 'reviewee_id');
+                    });
     }
 
-    // ユーザーに対して出品者としての評価
-    public function sellerReviews()
+    // 購入者として評価されたレビュー
+    public function scopeToBuyer($query, $userId)
     {
-        return $this->hasMany(UserReview::class, 'reviewed_id')->where('reviewer_id', $this->id);
+        return $query->where('reviewee_id', $userId)
+                    ->whereHas('transaction', function ($q) {
+                        $q->whereColumn('buyer_id', 'reviewee_id');
+                    });
     }
 }

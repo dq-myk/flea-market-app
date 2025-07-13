@@ -65,16 +65,12 @@ class MessageController extends Controller
         $buyerId = $transaction->buyer_id;
 
         $tradingItems = Transaction::where('status', 'in_progress')
-        ->where('buyer_id', $buyerId)
-        ->where('id', '!=', $transaction->id)
-        ->with(['item', 'messages' => function ($query) use ($transaction) {
-            $query->where('sender_id', $transaction->buyer_id)
-                ->latest('created_at');
-        }])
-        ->get()
-        ->sortByDesc(function ($item) {
-            return optional($item->messages->first())->created_at;
-        });
+            ->where('buyer_id', $transaction->buyer_id)
+            ->where('id', '!=', $transaction->id)
+            ->with('item')
+            ->withMax('messages', 'created_at')
+            ->orderByDesc('messages_max_created_at')
+            ->get();
 
         $alreadyReviewed = UserReview::where('transaction_id', $transaction->id)
             ->where('reviewee_id', $transaction->seller_id)
