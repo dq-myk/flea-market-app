@@ -122,7 +122,7 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 ### 4. 追加機能実装
 ```
 ・取引チャット（投稿、編集、削除）
-・取引チャット入力時の入力情報保持（JavaScript使用）
+・取引チャット入力時の入力メッセージ情報保持（JavaScript使用）
 ・評価機能（購入者、出品者、評価の平均値確認）
 ・取引完了メール確認
 ```
